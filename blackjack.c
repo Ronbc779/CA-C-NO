@@ -4,7 +4,7 @@
 
 #define MAX_HAND 10
 
-extern void saveUser(char name[], int pin, int balance, int bj_wins, int sm_wins, int roulette_wins, int total_wins);
+extern void saveUser(char name[], int pin, int balance, int bj_wins, int sm_wins, int roulette_wins, int guess_wins, int total_wins);
 
 typedef struct {
     char rank;
@@ -104,7 +104,7 @@ void playBlackjack(char name[], int pin, int *balance, int *bj_wins, int *total_
         }
 
         //save to file
-        saveUser(name, pin, *balance, *bj_wins, sm_wins, roulette_wins, *total_wins);
+        saveUser(name, pin, *balance, *bj_wins, sm_wins, roulette_wins, guess_wins, *total_wins);
         printf("Want to play again?\n1. Yes\n2. No\n>> ");
         scanf("%d", &choice);
         if(choice == 2) return;

@@ -5,7 +5,7 @@
 
 typedef struct {
     char name[50];
-    int pin, balance, bj, sm, roul, guess, total;
+    int pin, balance, bj_wins, sm_wins, roulette_wins, guess_wins, total_wins;
 } User;
 
 void signUp(){
@@ -45,32 +45,27 @@ void signUp(){
     printf("\n*****Account created successfully!*****\n");
 }
 
-int verify(char name[], int *pin, int *balance, int *bj_wins, int *sm_wins, int *roulette_wins, int *guess_wins, int *total_wins) {
+int verify(User *user) {
     FILE *fp = fopen("gamblers.txt", "r");
 
-    char temp_name[50];
-    int temp_pin, temp_balance, temp_bj, temp_sm, temp_roulette, temp_guess,  temp_total;
+    User temp;
 
     printf("\n=== VERIFICATION ===\n");
     printf("Enter name: ");
-    scanf("%s", name);
+    scanf("%s", user->name);
 
     printf("Enter PIN: ");
-    scanf("%d", pin);
+    scanf("%d", &user->pin);
 
     while (fscanf(fp, "%s %d %d %d %d %d %d %d",
-                  temp_name, &temp_pin,
-                  &temp_balance, &temp_bj, &temp_sm, &temp_roulette, &temp_guess, &temp_total) != EOF) {
+                  temp.name, &temp.pin, &temp.balance,
+                  &temp.bj_wins, &temp.sm_wins, &temp.roulette_wins,
+                  &temp.guess_wins, &temp.total_wins) != EOF) {
 
         //checks if same name with the current line in file
-        if (strcmp(name, temp_name) == 0 && *pin == temp_pin) {
+        if (strcmp(user->name, temp.name) == 0 && user->pin == temp.pin) {
             
-            *balance = temp_balance;
-            *bj_wins = temp_bj;
-            *sm_wins = temp_sm;
-            *roulette_wins = temp_roulette;
-            *guess_wins = temp_guess;
-            *total_wins = temp_total;
+            *user = temp;
 
             fclose(fp);
             printf("Verify successful!\n");
@@ -83,34 +78,36 @@ int verify(char name[], int *pin, int *balance, int *bj_wins, int *sm_wins, int 
     return 0;
 }
 
-void saveUser(char name[], int pin, int balance, int bj_wins, int sm_wins, int roulette_wins, int *guess_wins, int total_wins) {
+void saveUser(User *user) {
     FILE *fp = fopen("gamblers.txt", "r");
-    FILE *temp = fopen("temp.txt", "w");
+    FILE *temp_fp = fopen("temp.txt", "w");
 
-    char temp_name[50];
-    int temp_pin, temp_balance, temp_bj, temp_sm, temp_roulette, temp_guess,  temp_total;
+    User temp;
 
     //goes through file line by line
     while (fscanf(fp, "%s %d %d %d %d %d %d %d",
-                temp_name, &temp_pin,
-                &temp_balance, &temp_bj,
-                &temp_sm, &temp_roulette, &temp_guess, 
-                &temp_total) != EOF) 
+                temp.name, &temp.pin, &temp.balance,
+                  &temp.bj_wins, &temp.sm_wins, &temp.roulette_wins,
+                  &temp.guess_wins, &temp.total_wins) != EOF) 
     {
 
-        if (strcmp(name, temp_name) == 0 && pin == temp_pin) {
+        if (strcmp(user->name, temp.name) == 0 && user->pin == temp.pin) {
             //checks if name and pin matches then writes the updated values
-            fprintf(temp, "%s %d %d %d %d %d %d %d\n",
-                    name, pin, balance, bj_wins, sm_wins, roulette_wins, temp_guess, total_wins);
+            fprintf(temp_fp, "%s %d %d %d %d %d %d %d\n",
+                    user->name, user->pin, user->balance,
+                    user->bj_wins, user->sm_wins, user->roulette_wins,
+                    user->guess_wins, user->total_wins);
         } else {
             //not the right one so copies the same values
-            fprintf(temp, "%s %d %d %d %d %d %d %d\n",
-                    temp_name, temp_pin, temp_balance, temp_bj, temp_sm, temp_roulette, temp_guess, temp_total);
+            fprintf(temp_fp, "%s %d %d %d %d %d %d %d\n",
+                    temp.name, temp.pin, temp.balance,
+                    temp.bj_wins, temp.sm_wins, temp.roulette_wins,
+                    temp.guess_wins, temp.total_wins);
         }
     }
 
     fclose(fp);
-    fclose(temp);
+    fclose(temp_fp);
 
     //remove old and rename new file
     remove("gamblers.txt");
@@ -129,8 +126,9 @@ void showLeaderboard() {
 
     // Read all users into an array and count them
     while (fscanf(fp, "%s %d %d %d %d %d %d %d", 
-           users[count].name, &users[count].pin, &users[count].balance, 
-           &users[count].bj, &users[count].sm, &users[count].roul, &users[count].guess, &users[count].total) != EOF) {
+           users[count].name, &users[count].pin, &users[count].balance,
+           &users[count].bj_wins, &users[count].sm_wins, &users[count].roulette_wins,
+           &users[count].guess_wins, &users[count].total_wins) != EOF) {
         count++;
     }
     fclose(fp);
@@ -153,13 +151,20 @@ void showLeaderboard() {
             int val1, val2;
             //get the values needed by user's choice
             switch(choice) {
-                case 1: val1 = users[j].bj; val2 = users[j+1].bj; break;
-                case 2: val1 = users[j].sm; val2 = users[j+1].sm; break;
-                case 3: val1 = users[j].roul; val2 = users[j+1].roul; break;
-                case 4: val1 = users[j].guess; val2 = users[j+1].guess; break;
-                case 5: val1 = users[j].total; val2 = users[j+1].total; break;
-                case 6: val1 = users[j].balance; val2 = users[j+1].balance; break;
-                default: val1 = users[j].total; val2 = users[j+1].total; break;
+                case 1: val1 = users[j].bj_wins; val2 = users[j+1].bj_wins;
+                    break;
+                case 2: val1 = users[j].sm_wins; val2 = users[j+1].sm_wins;
+                    break;
+                case 3: val1 = users[j].roulette_wins; val2 = users[j+1].roulette_wins;  
+                    break;
+                case 4: val1 = users[j].guess_wins; val2 = users[j+1].guess_wins;     
+                    break;
+                case 5: val1 = users[j].total_wins; val2 = users[j+1].total_wins;     
+                    break;
+                case 6: val1 = users[j].balance; val2 = users[j+1].balance;
+                    break;
+                default: val1 = users[j].total_wins; val2 = users[j+1].total_wins;
+                    break;
             }
             
             //switch values if first is smaller
@@ -185,10 +190,10 @@ void showLeaderboard() {
         printf("----------------------------\n");
         for (int i = 0; i < count; i++) {
             //gets user's wanted variable and assigns to display
-            int display = (choice == 1) ? users[i].bj :
-                        (choice == 2) ? users[i].sm :
-                        (choice == 3) ? users[i].roul : 
-                        (choice == 4) ? users[i].guess : users[i].total;
+            int display = (choice == 1) ? users[i].bj_wins :
+                        (choice == 2) ? users[i].sm_wins :
+                        (choice == 3) ? users[i].roulette_wins : 
+                        (choice == 4) ? users[i].guess_wins : users[i].total_wins;
                             
             printf("%-15s | %-10d\n", users[i].name, display);
         }

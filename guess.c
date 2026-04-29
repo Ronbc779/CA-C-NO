@@ -3,12 +3,17 @@
 #include <time.h>
 #include <stdlib.h>
 
-extern void saveUser(char name[], int pin, int balance, int bj_wins, int sm_wins, int roulette_wins, int guess_wins, int total_wins);
+typedef struct {
+    char name[50];
+    int pin, balance, bj_wins, sm_wins, roulette_wins, guess_wins, total_wins;
+} User;
+
+extern void saveUser(User *user);
 
 int getBallPosition(int difficulty);
 void drawCups(int count);
 
-void playGuess(char name[], int pin, int *balance, int bj_wins, int *total_wins, int sm_wins, int roulette_wins, int *guess_wins){
+void playGuess(User *user){
     int choice, bet;
     printf("\n????????Guess Game????????\n");
     printf("Rules:\n1. Choose the difficulty you like.\n2. The harder the difficulty, the more options to choose from, the higher the payout.\n3. A ball will be placed in a random spot, all you have to do is guess where it is.\n4. There will be 3 rounds each starting with 3 balls and decreasing to 1.\n5. Payout rates:\nEasy = x1\nMedium = x2\nHard = x3\n=============\nWould you like to play?\n1. Yes\n2. No\n>> ");
@@ -19,11 +24,11 @@ void playGuess(char name[], int pin, int *balance, int bj_wins, int *total_wins,
     do{
         int diff, user_guess, won_round = 1;
         printf("\n????????Guess Game????????\n");
-        printf("Balance: %d\n", *balance);
+        printf("Balance: %d\n", user->balance);
         printf("Enter bet: ");
         scanf("%d", &bet);
 
-        if (bet <= 0 || bet > *balance) {
+        if (bet <= 0 || bet > user->balance) {
             printf("Invalid bet!\n");
             break;
         }
@@ -86,15 +91,16 @@ void playGuess(char name[], int pin, int *balance, int bj_wins, int *total_wins,
         if (won_round) {
             int payout = bet * diff; 
             printf("\nCONGRATULATIONS! You passed all rounds. Won: %d\n", payout);
-            *balance += payout;
-            (*guess_wins)++;
-            (*total_wins)++;
+            user->balance += payout;
+            (user->guess_wins)++;
+            (user->total_wins)++;
         } else {
             printf("\nBetter luck next time. Lost: %d\n", bet);
-            *balance -= bet;
+            user->balance -= bet;
         }
 
-        saveUser(name, pin, *balance, bj_wins, sm_wins, roulette_wins, *guess_wins, *total_wins);
+        saveUser(user);
+        
         printf("\n1. Play Again\n2. Quit\n>> ");
         scanf("%d", &choice);
         if (choice == 2) break;

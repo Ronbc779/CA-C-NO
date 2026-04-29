@@ -5,22 +5,21 @@
 
 //function prototypes
 void signUp();
-int verify(char name[], int *pin, int *balance, int *bj_wins, int *sm_wins, int *roulette_wins, int *guess_wins, int *total_wins);
-void saveUser(char name[], int pin, int balance, int bj_wins, int sm_wins, int roulette_wins, int *guess_wins, int total_wins);
-void playBlackjack(char name[], int pin, int *balance, int *bj_wins, int *total_wins, int sm_wins, int roulette_wins, int guess_wins);
-void playGuess(char name[], int pin, int *balance, int bj_wins, int *total_wins, int sm_wins, int roulette_wins, int *guess_wins);
+int verify(User *user);
+void saveUser(User *user);
+void playBlackjack(User *user);
+void playGuess(User *user);
 void showLeaderboard();
 
 typedef struct {
     char name[50];
-    int pin, balance, bj, sm, roul, guess, total;
+    int pin, balance, bj_wins, sm_wins, roulette_wins, guess_wins, total_wins;
 } User;
 
 int main(){
     srand(time(NULL));
 
-    char name[50];
-    int pin = 0, balance = 0, bj_wins = 0, sm_wins = 0, roulette_wins = 0, guess_wins = 0, total_wins = 0;
+    User user;
     int choice, game;
 
     while(1)
@@ -42,7 +41,7 @@ int main(){
         }
         else if (choice == 2) {
             //gets the values of user from  file and if it is there
-            if (verify(name, &pin, &balance, &bj_wins, &sm_wins, &roulette_wins, &guess_wins, &total_wins)) {
+            if (verify(&user)) {
                 do{
                     printf("\n=======Choose Game=======\n1. Blackjack\n2. Slot Machine\n3. Roulette\n4. Guess Game\n5. Show Leaderboard\n6. Leave the gambling area\n>> ");
                     scanf("%d",&game);
@@ -51,12 +50,12 @@ int main(){
                     {
                         case 1: 
                         //play blackjack in seperate file
-                            playBlackjack(name, pin, &balance, &bj_wins, &total_wins, sm_wins, roulette_wins, guess_wins);
+                            playBlackjack(&user);
                             break;
                         case 2: break;
                         case 3: break;
                         case 4: 
-                            playGuess(name, pin, &balance, bj_wins, &total_wins, sm_wins, roulette_wins, &guess_wins);
+                            playGuess(&user);
                             break;
                         case 5: 
                         //show the leaderboard

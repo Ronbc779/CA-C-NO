@@ -1,15 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "casino.h"
 
 #define MAX_HAND 10
 
-typedef struct {
-    char name[50];
-    int pin, balance, bj_wins, sm_wins, roulette_wins, guess_wins, total_wins;
-} User;
-
-extern void saveUser(User *user);
 
 typedef struct {
     char rank;

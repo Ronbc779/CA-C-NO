@@ -2,11 +2,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-
-typedef struct {
-    char name[50];
-    int pin, balance, bj_wins, sm_wins, roulette_wins, guess_wins, total_wins;
-} User;
+#include "casino.h"
 
 void signUp(){
     FILE *fp = fopen("gamblers.txt", "a+");

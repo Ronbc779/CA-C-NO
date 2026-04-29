@@ -2,11 +2,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-
-typedef struct {
-    char name[50];
-    int pin, balance, bj_wins, sm_wins, roulette_wins, guess_wins, total_wins;
-} User;
+#include "casino.h"
 
 extern void saveUser(User *user);
 
@@ -100,7 +96,7 @@ void playGuess(User *user){
         }
 
         saveUser(user);
-        
+
         printf("\n1. Play Again\n2. Quit\n>> ");
         scanf("%d", &choice);
         if (choice == 2) break;

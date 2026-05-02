@@ -22,7 +22,7 @@ int main(){
         if(choice == 2)
             break;
 
-        printf("\n1. Create Membership\n2. Already a member\n3. Exit\n>> ");
+        printf("\n1. Register\n2. Already a member\n3. Exit\n>> ");
         scanf("%d", &choice);
 
         if (choice == 1) {

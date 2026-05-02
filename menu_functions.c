@@ -50,8 +50,6 @@ int verify(User *user) {
     printf("Enter name: ");
     scanf("%s", user->name);
 
-    printf("Enter PIN: ");
-    scanf("%d", &user->pin);
 
     while (fscanf(fp, "%s %d %d %d %d %d %d %d",
                   temp.name, &temp.pin, &temp.balance,

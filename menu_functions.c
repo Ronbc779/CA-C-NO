@@ -20,11 +20,11 @@ void signUp(){
     // Check duplicate PIN
     rewind(fp);
     char temp_name[50];
-    int balance, bj_wins, sm_wins, roulette_wins, guess_wins, total_wins;
+    int balance, bj_wins, color_wins, roulette_wins, guess_wins, total_wins;
 
     while (fscanf(fp, "%s %d %d %d %d %d %d %d",
                   temp_name, &existing_pin,
-                  &balance, &bj_wins, &sm_wins, &roulette_wins, &guess_wins, &total_wins) != EOF) {
+                  &balance, &bj_wins, &color_wins, &roulette_wins, &guess_wins, &total_wins) != EOF) {
 
         if (existing_pin == pin) {
             printf("PIN already exists! Try another.\n");
@@ -55,7 +55,7 @@ int verify(User *user) {
 
     while (fscanf(fp, "%s %d %d %d %d %d %d %d",
                   temp.name, &temp.pin, &temp.balance,
-                  &temp.bj_wins, &temp.sm_wins, &temp.roulette_wins,
+                  &temp.bj_wins, &temp.color_wins, &temp.roulette_wins,
                   &temp.guess_wins, &temp.total_wins) != EOF) {
 
         //checks if same name with the current line in file
@@ -83,7 +83,7 @@ void saveUser(User *user) {
     //goes through file line by line
     while (fscanf(fp, "%s %d %d %d %d %d %d %d",
                 temp.name, &temp.pin, &temp.balance,
-                  &temp.bj_wins, &temp.sm_wins, &temp.roulette_wins,
+                  &temp.bj_wins, &temp.color_wins, &temp.roulette_wins,
                   &temp.guess_wins, &temp.total_wins) != EOF) 
     {
 
@@ -91,13 +91,13 @@ void saveUser(User *user) {
             //checks if name and pin matches then writes the updated values
             fprintf(temp_fp, "%s %d %d %d %d %d %d %d\n",
                     user->name, user->pin, user->balance,
-                    user->bj_wins, user->sm_wins, user->roulette_wins,
+                    user->bj_wins, user->color_wins, user->roulette_wins,
                     user->guess_wins, user->total_wins);
         } else {
             //not the right one so copies the same values
             fprintf(temp_fp, "%s %d %d %d %d %d %d %d\n",
                     temp.name, temp.pin, temp.balance,
-                    temp.bj_wins, temp.sm_wins, temp.roulette_wins,
+                    temp.bj_wins, temp.color_wins, temp.roulette_wins,
                     temp.guess_wins, temp.total_wins);
         }
     }
@@ -123,7 +123,7 @@ void showLeaderboard() {
     // Read all users into an array and count them
     while (fscanf(fp, "%s %d %d %d %d %d %d %d", 
            users[count].name, &users[count].pin, &users[count].balance,
-           &users[count].bj_wins, &users[count].sm_wins, &users[count].roulette_wins,
+           &users[count].bj_wins, &users[count].color_wins, &users[count].roulette_wins,
            &users[count].guess_wins, &users[count].total_wins) != EOF) {
         count++;
     }
@@ -149,7 +149,7 @@ void showLeaderboard() {
             switch(choice) {
                 case 1: val1 = users[j].bj_wins; val2 = users[j+1].bj_wins;
                     break;
-                case 2: val1 = users[j].sm_wins; val2 = users[j+1].sm_wins;
+                case 2: val1 = users[j].color_wins; val2 = users[j+1].color_wins;
                     break;
                 case 3: val1 = users[j].roulette_wins; val2 = users[j+1].roulette_wins;  
                     break;
@@ -187,7 +187,7 @@ void showLeaderboard() {
         for (int i = 0; i < count; i++) {
             //gets user's wanted variable and assigns to display
             int display = (choice == 1) ? users[i].bj_wins :
-                        (choice == 2) ? users[i].sm_wins :
+                        (choice == 2) ? users[i].color_wins :
                         (choice == 3) ? users[i].roulette_wins : 
                         (choice == 4) ? users[i].guess_wins : users[i].total_wins;
                             

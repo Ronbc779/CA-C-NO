@@ -32,7 +32,7 @@ int main(){
             //gets the values of user from  file and if it is there
             if (verify(&user)) {
                 do{
-                    printf("\n=======Choose Game=======\n1. Blackjack\n2. Slot Machine\n3. Roulette\n4. Guess Game\n5. Show Leaderboard\n6. Leave the gambling area\n>> ");
+                    printf("\n=======Choose Game=======\n1. Blackjack\n2. Color Game\n3. Roulette\n4. Guess Game\n5. Show Leaderboard\n6. Leave the gambling area\n>> ");
                     scanf("%d",&game);
 
                     switch(game)

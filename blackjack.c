@@ -87,12 +87,12 @@ void playBlackjack(User *user) {
             printf("BUST! You lost %d.\n", bet);
             user->balance -= bet;
         } else if (dealerFinal > 21 || playerFinal > dealerFinal) {
-            printf("YOU WIN! You gained %d.\n", bet);
+            printf("%sYOU WIN! You gained %d%s.\n", GRN, bet, RESET);
             user->balance += bet;
             user->bj_wins++;
             user->total_wins++;
         } else if (playerFinal < dealerFinal) {
-            printf("DEALER WINS! You lost %d.\n", bet);
+            printf("%sDEALER WINS! You lost %d%s.\n",RED, bet, RESET);
             user->balance -= bet;
         } else {
             printf("PUSH (Tie)! Your bet was returned.\n");

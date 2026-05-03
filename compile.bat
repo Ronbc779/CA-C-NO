@@ -1,1 +1,0 @@
-gcc casino.c menu_functions.c blackjack.c colorgame.c guess.c -o casino

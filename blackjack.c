@@ -117,7 +117,12 @@ Card drawCard() {
 void printHand(const char* owner, Card hand[], int size) {
     printf("%s's hand: ", owner);
     for (int i = 0; i < size; i++) {
-        printf("[%c%c] ", hand[i].rank, hand[i].suit);
+        if (hand[i].suit == 'H' || hand[i].suit == 'D') {
+            // Rank and Suit will both be Red
+            printf("[%s%s%c%c%s] ", RED, BOLD, hand[i].rank, hand[i].suit, RESET);
+        } else {
+            printf("[%c%c] ", hand[i].rank, hand[i].suit);
+        }
     }
     printf("(Value: %d)\n", calculateScore(hand, size));
 }

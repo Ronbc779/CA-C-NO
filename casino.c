@@ -38,10 +38,12 @@ int main(){
                     switch(game)
                     {
                         case 1: 
-                        //play blackjack in seperate file
-                            playBlackjack(&user);
+                        //plays blackjack in seperate file
+                           playBlackjack(&user);
                             break;
-                        case 2: break;
+                        case 2:
+						//plays colorgame in separate file
+							playColorGame(&user);
                         case 3: break;
                         case 4: 
                             playGuess(&user);

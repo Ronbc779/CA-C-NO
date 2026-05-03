@@ -2,25 +2,25 @@
 #define CASINO_H
 
 //normal colors
-#define BLK "\e[0;30m"
-#define RED "\e[0;31m"
-#define GRN "\e[0;32m"
-#define YEL "\e[0;33m"
-#define BLU "\e[0;34m"
-#define MAG "\e[0;35m"
-#define CYN "\e[0;36m"
-#define RESET "\e[0m"
-#define BOLD  "\e[1m"
+#define BLK "\x1B[0;30m"
+#define RED "\x1B[0;31m"
+#define GRN "\x1B[0;32m"
+#define YEL "\x1B[0;33m"
+#define BLU "\x1B[0;34m"
+#define MAG "\x1B[0;35m"
+#define CYN "\x1B[0;36m"
+#define RESET "\x1B[0m"
+#define BOLD  "\x1B[1m"
 
 //bold colors
-#define BBLK "\e[1;30m"
-#define BRED "\e[1;31m"
-#define BGRN "\e[1;32m"
-#define BYEL "\e[1;33m"
-#define BBLU "\e[1;34m"
-#define BMAG "\e[1;35m"
-#define BCYN "\e[1;36m"
-#define BWHT "\e[1;37m"
+#define BBLK "\x1B[1;30m"
+#define BRED "\x1B[1;31m"
+#define BGRN "\x1B[1;32m"
+#define BYEL "\x1B[1;33m"
+#define BBLU "\x1B[1;34m"
+#define BMAG "\x1B[1;35m"
+#define BCYN "\x1B[1;36m"
+#define BWHT "\x1B[1;37m"
 
 typedef struct {
     char name[50];

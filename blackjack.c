@@ -50,9 +50,18 @@ void playBlackjack(User *user) {
 
         while (1) {
             printHand("Player", pHand, pSize);
-            printf("Dealer shows: [%c%c]\n", dHand[0].rank, dHand[0].suit);
+            printf("Dealer shows: ");
+            if (dHand[0].suit == 'H' || dHand[0].suit == 'D') {
+                printf("[%s%c%c%s] %s[??]%s\n", RED, dHand[0].rank, dHand[0].suit, RESET, CYN, RESET);
+            } else {
+                printf("[%c%c] %s[??]%s\n", dHand[0].rank, dHand[0].suit, CYN, RESET);
+            }
 
             int pScore = calculateScore(pHand, pSize);
+            if (pScore == 21) {
+                printHand("Player", pHand, pSize);
+                printf("%s%s★ NATURAL BLACKJACK! ★%s\n", MAG, BOLD, RESET);
+            }
             if (pScore > 21) break;
 
             printf("\n1. Hit (Draw Card)\n2. Stand (Stay)\n>> ");

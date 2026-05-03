@@ -8,33 +8,28 @@ void signUp(){
     FILE *fp = fopen("gamblers.txt", "a+");
 
     char name[50];
-    int pin, existing_pin;
-
     printf("\n=== SIGN UP ===\n");
     printf("Enter name: ");
     scanf("%s", name);
-
-    printf("Enter 4-digit PIN: ");
-    scanf("%d", &pin);
 
     // Check duplicate PIN
     rewind(fp);
     char temp_name[50];
     int balance, bj_wins, color_wins, roulette_wins, guess_wins, total_wins;
 
-    while (fscanf(fp, "%s %d %d %d %d %d %d %d",
-                  temp_name, &existing_pin,
+    while (fscanf(fp, "%s %d %d %d %d %d %d",
+                  temp_name,
                   &balance, &bj_wins, &color_wins, &roulette_wins, &guess_wins, &total_wins) != EOF) {
 
-        if (existing_pin == pin) {
-            printf("PIN already exists! Try another.\n");
+        if (strcmp(temp_name, name) == 0) {
+            printf("User already exists! Try another.\n");
             fclose(fp);
             return;
         }
     }
 
     // Save new user
-    fprintf(fp, "%s %d %d %d %d %d %d %d\n", name, pin, 100, 0, 0, 0, 0, 0);
+    fprintf(fp, "%s %d %d %d %d %d %d\n", name, 100, 0, 0, 0, 0, 0);
     //nts: if name is yumeko, balance is 99999 and wins are 1000 frfr
     fclose(fp);
 
@@ -51,24 +46,24 @@ int verify(User *user) {
     scanf("%s", user->name);
 
 
-    while (fscanf(fp, "%s %d %d %d %d %d %d %d",
-                  temp.name, &temp.pin, &temp.balance,
+    while (fscanf(fp, "%s %d %d %d %d %d %d",
+                  temp.name, &temp.balance,
                   &temp.bj_wins, &temp.color_wins, &temp.roulette_wins,
                   &temp.guess_wins, &temp.total_wins) != EOF) {
 
         //checks if same name with the current line in file
-        if (strcmp(user->name, temp.name) == 0 && user->pin == temp.pin) {
+        if (strcmp(user->name, temp.name) == 0) {
             
             *user = temp;
 
             fclose(fp);
-            printf("Verify successful!\n");
+            printf("Verify successful! Welcome, %s.\n", user->name);
             return 1;
         }
     }
 
     fclose(fp);
-    printf("Invalid credentials.\n");
+    printf("User not found.\n");
     return 0;
 }
 
@@ -79,22 +74,22 @@ void saveUser(User *user) {
     User temp;
 
     //goes through file line by line
-    while (fscanf(fp, "%s %d %d %d %d %d %d %d",
-                temp.name, &temp.pin, &temp.balance,
+    while (fscanf(fp, "%s %d %d %d %d %d %d",
+                temp.name, &temp.balance,
                   &temp.bj_wins, &temp.color_wins, &temp.roulette_wins,
                   &temp.guess_wins, &temp.total_wins) != EOF) 
     {
 
-        if (strcmp(user->name, temp.name) == 0 && user->pin == temp.pin) {
+        if (strcmp(user->name, temp.name) == 0) {
             //checks if name and pin matches then writes the updated values
-            fprintf(temp_fp, "%s %d %d %d %d %d %d %d\n",
-                    user->name, user->pin, user->balance,
+            fprintf(temp_fp, "%s %d %d %d %d %d %d\n",
+                    user->name, user->balance,
                     user->bj_wins, user->color_wins, user->roulette_wins,
                     user->guess_wins, user->total_wins);
         } else {
             //not the right one so copies the same values
-            fprintf(temp_fp, "%s %d %d %d %d %d %d %d\n",
-                    temp.name, temp.pin, temp.balance,
+            fprintf(temp_fp, "%s %d %d %d %d %d %d\n",
+                    temp.name, temp.balance,
                     temp.bj_wins, temp.color_wins, temp.roulette_wins,
                     temp.guess_wins, temp.total_wins);
         }
@@ -119,8 +114,8 @@ void showLeaderboard() {
     int count = 0;
 
     // Read all users into an array and count them
-    while (fscanf(fp, "%s %d %d %d %d %d %d %d", 
-           users[count].name, &users[count].pin, &users[count].balance,
+    while (fscanf(fp, "%s %d %d %d %d %d %d", 
+           users[count].name, &users[count].balance,
            &users[count].bj_wins, &users[count].color_wins, &users[count].roulette_wins,
            &users[count].guess_wins, &users[count].total_wins) != EOF) {
         count++;

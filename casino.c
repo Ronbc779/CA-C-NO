@@ -44,7 +44,10 @@ int main(){
                         case 2:
 						//plays colorgame in separate file
 							playColorGame(&user);
-                        case 3: break;
+                            break;
+                        case 3: 
+                            playRoulette(&user);
+                            break;
                         case 4: 
                             playGuess(&user);
                             break;

@@ -8,7 +8,7 @@ CFLAGS = -Wall -g
 TARGET = casino
 
 # files used in project (currently)
-SRCS = casino.c blackjack.c menu_functions.c guess.c
+SRCS = casino.c blackjack.c menu_functions.c guess.c colorgame.c
 
 # Rule to build the project
 all:

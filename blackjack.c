@@ -117,14 +117,18 @@ Card drawCard() {
 void printHand(const char* owner, Card hand[], int size) {
     printf("%s's hand: ", owner);
     for (int i = 0; i < size; i++) {
-        if (hand[i].suit == 'H' || hand[i].suit == 'D') {
-            // Rank and Suit will both be Red
-            printf("[%s%s%c%c%s] ", RED, BOLD, hand[i].rank, hand[i].suit, RESET);
-        } else {
-            printf("[%c%c] ", hand[i].rank, hand[i].suit);
+       const char* suitColor = RESET;
+        
+        // Assign colors based on suit
+        switch(hand[i].suit) {
+            case 'H': suitColor = BRED; break; // Hearts: Bold Red
+            case 'D': suitColor = RED;   break; // Diamonds: Standard Red
+            case 'S': suitColor = BLU; break; // Spades: Gold/Yellow
+            case 'C': suitColor = GRN;   break; // Clubs: Green
         }
+        printf("[%s%c%s%c%s] ", suitColor, hand[i].rank, suitColor, hand[i].suit, RESET);
     }
-    printf("(Value: %d)\n", calculateScore(hand, size));
+    printf("(Score: %s%d%s)\n", BYEL, calculateScore(hand, size), RESET);
 }
 
 int getCardValue(char r) {

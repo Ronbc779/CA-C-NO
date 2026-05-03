@@ -28,7 +28,7 @@ void playColorGame(User *user){
 	}
 }
 
-void print_cube(char colors[][9], int cube_size, int chosen_color){
+void print_cube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int chosen_color){
 	// Sets cube to assigned color
 	printf("%s", colors[chosen_color]);
 	for(int i = 0; i < cube_size; i++){ // Cube height

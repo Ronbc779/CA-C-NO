@@ -42,7 +42,7 @@ int main(){
                             playBlackjack(&user);
                             break;
                         case 2:
-						//calls colorgame file
+						//play colorgame in separate file
 							playColorGame(&user);
                         case 3: break;
                         case 4: 

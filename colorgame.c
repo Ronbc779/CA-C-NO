@@ -3,7 +3,7 @@
 #include <time.h>
 #include "casino.h"
 
-void print_cube(char colors[][9], int cube_size, int color_choices, int chosen_color);
+void print_cube(char colors[][9], int cube_size, int chosen_color);
 
 void playColorGame(User *user){
 	int color_choices = 6;

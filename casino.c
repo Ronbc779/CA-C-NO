@@ -41,7 +41,9 @@ int main(){
                         //play blackjack in seperate file
                             playBlackjack(&user);
                             break;
-                        case 2: break;
+                        case 2:
+						//calls colorgame file
+							playColorGame(&user);
                         case 3: break;
                         case 4: 
                             playGuess(&user);

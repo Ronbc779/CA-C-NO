@@ -17,26 +17,35 @@ void playColorGame(User *user){
 		RED, GRN, YEL, 
 		BLU, MAG, CYN
 	};
-
-	// Storage of random colors for comparison
-	while(true){
-		int random_colors[CUBE_COUNT];
-		printf("\n====== COLOR GAME ======="
+	
+	int prompt_play = 1; // Game loop
+	while(prompt_play == 1){
+		int random_colors[CUBE_COUNT]; 	// Storage of random colors for comparison
+		int bet; int user_color;
+		printf("\n********COLOR GAME********"
 				"\n1. Pick one color from the list"
-				"\n2. Wait for the roll to happen, for hits:"
+				"\n2. Wait for the roll to happen and see if you're lucky! For hits:"
 				"\n\ta. One (1) color: x1.5"
 				"\n\tb. Two (1) colors: x2.0"	
 				"\n\tc. Three (3) colors: x3.0"	
 				"\n3. Minimum bet: 50 coins"
 		);
+		while(true){
+			printf("\n=============");
+			printf("\nWould you like to play?\n1. Yes\n2. No\n>> ");
+			scanf("%d", &prompt_play);
+			if(prompt_play == 1 || prompt_play == 2){
+				break;
+			} else{
+				printf("\nError: Please choose between 'Yes' (1) or 'No' (2).");
+			}
+		}
 		for(int i = 0; i<CUBE_COUNT; i++){
 		// Chooses random color for the ith cube
 		random_colors[i] = rand()%COLOR_CHOICES;
 		printf("\nCube %d | Color: %d\n", i+1, random_colors[i]);
 		print_cube(colors, CUBE_HEIGHT, random_colors[i]);
 		}
-		break;
-
 	}
 	
 	

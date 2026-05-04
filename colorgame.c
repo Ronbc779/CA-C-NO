@@ -30,7 +30,7 @@ void playColorGame(User *user){
 	);
 	
 	while(true){ // First run for gameplay loop
-		printf("\n============="); 
+		printf("\n\n============="); 
 		printf("\nWould you like to play?\n1. Yes\n2. No\n>> ");
 		scanf("%d", &prompt_play);
 		if(prompt_play == 1 || prompt_play == 2){ // 1 - Yes; 2 - No
@@ -44,7 +44,7 @@ void playColorGame(User *user){
 		printf("\n\nName: %s | Balance: %d", user->name, user->balance); 
 		
 		int random_colors[CUBE_COUNT]; 	// Storage of random colors for comparison
-		int bet; int user_color; int *balance = &user->balance;
+		int bet; int user_color; int *balance = &user->balance; int correct_guesses; 
 		
 		while(true){
 			printf("\nPlace your bet!\n>>> ");
@@ -56,17 +56,32 @@ void playColorGame(User *user){
 			} else if (bet > *balance && bet > 0){
 				printf("\nError: Insufficient! (Bet: %d | Balance: %d)", bet, *balance);
 			} else{
-				printf("Error: Invalid input Bet must be greater than 0! Bet: %d)", bet);
+				printf("\nError: Invalid input Bet must be greater than 0! (Bet: %d)", bet);
 			}
+		}
+
+		while(true){
+			printf("\n\nPick one color to bet on:"
+				   "\n1. Red\n2. Green\n3. Yellow\n4. Blue\n 5. Magenta\n 6. Cyan"
+			);
+			scanf("%d", &user_color);
+			if(user_color > 0 && user_color <= COLOR_CHOICES){
+				break;
+			} else{
+				printf("Error: Invalid input! (Must be between 1 and %d)", COLOR_CHOICES);
+			}
+			break;
 		}
 
 		for(int i = 0; i<CUBE_COUNT; i++){
 			// Chooses random color for the ith cube
 			random_colors[i] = rand()%COLOR_CHOICES;
+			if(random_colors[i] == user_color){
+				correct_guesses++
+			}
 			printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
 			printCube(colors, CUBE_HEIGHT, random_colors[i]);
 		}
-
 
 		while(true){ // Reprompt gameplay loop, same functionality
 			printf("\n=============");

@@ -48,8 +48,10 @@ void playColorGame(User *user){
 	while(prompt_play == 1){
 		printf("\n\nName: %s | Balance: %d", user->name, user->balance); 
 		
+		int *balance = &user->balance; // Simplified assignment for user balance
 		int random_colors[CUBE_COUNT]; 	// Storage of random colors for comparison
-		int bet; int user_color; int *balance = &user->balance; int correct_guesses; 
+		// Default initialization for each gameplay loop
+		int bet = 0; int user_color = 0; int correct_guesses = 0; 
 		
 		while(true){
 			printf("\nPlace your bet!\n>>> ");

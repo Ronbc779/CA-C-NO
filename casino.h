@@ -22,6 +22,9 @@
 #define BCYN "\x1B[1;36m"
 #define BWHT "\x1B[1;37m"
 
+// clear screen
+#define CLRSCR() puts("\033[2J")
+
 typedef struct {
     char name[50];
     int pin, balance, bj_wins, color_wins, roulette_wins, guess_wins, total_wins;

@@ -77,7 +77,7 @@ void playColorGame(User *user){
 			// Chooses random color for the ith cube
 			random_colors[i] = rand()%COLOR_CHOICES;
 			if(random_colors[i] == user_color){
-				correct_guesses++
+				correct_guesses++;
 			}
 			printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
 			printCube(colors, CUBE_HEIGHT, random_colors[i]);

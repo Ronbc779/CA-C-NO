@@ -12,7 +12,7 @@
 void printCube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int chosen_color);
 
 void playColorGame(User *user){
-	// Fetches ANSI color codes for cube faces and reset escape code.
+	// Fetches ANSI color codes for cube faces.
 	char colors[COLOR_CHOICES][COLOR_CODE_WIDTH] = {
 		RED, GRN, YEL, 
 		BLU, MAG, CYN
@@ -41,7 +41,7 @@ void playColorGame(User *user){
 	}
 
 	while(prompt_play == 1){
-		printf("Username: %s | Balance: %d", user->name, user->balance); // Debug
+		printf("\n\nName: %s | Balance: %d", user->name, user->balance); 
 		
 		int random_colors[CUBE_COUNT]; 	// Storage of random colors for comparison
 		int bet; int user_color; int *balance = &user->balance;
@@ -50,11 +50,13 @@ void playColorGame(User *user){
 			printf("\nPlace your bet!\n>>> ");
 			scanf("%d", &bet);
 			// Stop case: Bet is within balance
-			if(bet <= *balance){ 
+			if(bet <= *balance && bet > 0){ 
 				break;
 			// Error: Bet larger than balance
+			} else if (bet > *balance && bet > 0){
+				printf("\nError: Insufficient! (Bet: %d | Balance: %d)", bet, *balance);
 			} else{
-				printf("\nError: Insufficient balance! (Bet: %d | Balance: %d)", bet, *balance);
+				printf("Error: Invalid input Bet must be greater than 0! Bet: %d)", bet);
 			}
 		}
 

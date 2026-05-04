@@ -9,6 +9,11 @@
 #define CUBE_HEIGHT 10
 #define CUBE_COUNT 3
 
+// Bet multipliers relative to correct guesses
+#define MULTIPLIER_1 1
+#define MULTIPLIER_2 2
+#define MULTIPLIER_3 3
+
 void printCube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int chosen_color);
 
 void playColorGame(User *user){
@@ -24,9 +29,9 @@ void playColorGame(User *user){
 	printf("\n********COLOR GAME********"
 			"\n1. Pick one color from the list"
 			"\n2. Wait for the roll to happen and see if you're lucky! For hits:"
-			"\n\ta. One (1) color: x1.5"
-			"\n\tb. Two (2) colors: x2.0"	
-			"\n\tc. Three (3) colors: x3.0"	
+			"\n\ta. One (1) color: x%d"
+			"\n\tb. Two (2) colors: x%d"	
+			"\n\tc. Three (3) colors: x%d", MULTIPLIER_1, MULTIPLIER_2, MULTIPLIER_3	
 	);
 	
 	while(true){ // First run for gameplay loop
@@ -83,6 +88,26 @@ void playColorGame(User *user){
 		}
 
 		printf("\n\nCorrect Guesses: %d", correct_guesses);
+		switch(correct_guesses){
+			case 1:  
+				bet *= MULTIPLIER_1;
+				break; // No change to winnings
+			case 2:
+				bet *= MULTIPLIER_2;
+				break;
+			case 3:
+				bet *= MULTIPLIER_3;
+				break;
+			default: 
+				bet *= -1;
+				break;
+		} *balance += bet;
+
+		if(correct_guesses > 0){
+			printf("\n\nCongratulations! You got %d correct and won %d!", correct_guesses, bet);
+		} else{
+			printf("\n\nYou lost! You are now %d poorer!", bet);
+		}
 
 		while(true){ // Reprompt gameplay loop, same functionality
 			printf("\n=============");
@@ -95,6 +120,7 @@ void playColorGame(User *user){
 			}
 		}
 	} 
+	saveUser(user);
 	CLRSCR(); 
 	printf("\nLeaving 'Color Game', going back to main screen...\n");
 }

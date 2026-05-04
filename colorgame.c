@@ -62,15 +62,14 @@ void playColorGame(User *user){
 
 		while(true){
 			printf("\n\nPick one color to bet on:"
-				   "\n1. Red\n2. Green\n3. Yellow\n4. Blue\n 5. Magenta\n 6. Cyan"
+				   "\n1. Red\n2. Green\n3. Yellow\n4. Blue\n5. Magenta\n6. Cyan\n>>> "
 			);
 			scanf("%d", &user_color);
 			if(user_color > 0 && user_color <= COLOR_CHOICES){
-				break;
+				user_color--; break; // Decrement for index syntax and random color comparison
 			} else{
 				printf("Error: Invalid input! (Must be between 1 and %d)", COLOR_CHOICES);
 			}
-			break;
 		}
 
 		for(int i = 0; i<CUBE_COUNT; i++){
@@ -82,6 +81,8 @@ void playColorGame(User *user){
 			printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
 			printCube(colors, CUBE_HEIGHT, random_colors[i]);
 		}
+
+		printf("\n\nCorrect Guesses: %d", correct_guesses);
 
 		while(true){ // Reprompt gameplay loop, same functionality
 			printf("\n=============");

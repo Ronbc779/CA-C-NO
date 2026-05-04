@@ -8,7 +8,6 @@
 #define COLOR_CODE_WIDTH 9
 #define CUBE_HEIGHT 10
 #define CUBE_COUNT 3
-#define MINIMUM_BET 50
 
 void printCube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int chosen_color);
 
@@ -28,7 +27,6 @@ void playColorGame(User *user){
 			"\n\ta. One (1) color: x1.5"
 			"\n\tb. Two (2) colors: x2.0"	
 			"\n\tc. Three (3) colors: x3.0"	
-			"\n3. Minimum bet: %d coins", MINIMUM_BET
 	);
 	
 	while(true){ // First run for gameplay loop
@@ -49,15 +47,12 @@ void playColorGame(User *user){
 		int bet; int user_color; int *balance = &user->balance;
 		
 		while(true){
-			printf("\nPlace your bet! (Minimum: %d)\n>>> ", MINIMUM_BET);
+			printf("\nPlace your bet!\n>>> ");
 			scanf("%d", &bet);
-			// Stop case: Valid bet and within balance
-			if(bet >= MINIMUM_BET && bet <= *balance){ 
+			// Stop case: Bet is within balance
+			if(bet <= *balance){ 
 				break;
-			// Error 1: User bet is less than minimum bet
-			} else if(bet < MINIMUM_BET && bet<= *balance){ // 
-				printf("\nError: Please enter a higher bet! (%d is less than %d)", bet, MINIMUM_BET);
-			// Error 2: Insufficient balance
+			// Error: Bet larger than balance
 			} else{
 				printf("\nError: Insufficient balance! (Bet: %d | Balance: %d)", bet, *balance);
 			}
@@ -69,6 +64,7 @@ void playColorGame(User *user){
 			printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
 			printCube(colors, CUBE_HEIGHT, random_colors[i]);
 		}
+
 
 		while(true){ // Reprompt gameplay loop, same functionality
 			printf("\n=============");

@@ -16,6 +16,8 @@
 
 void printCube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int chosen_color);
 
+void askGameplayLoop(int *play_switch, char message[]);
+
 void playColorGame(User *user){
 	// Fetches ANSI color codes for cube faces.
 	char colors[COLOR_CHOICES][COLOR_CODE_WIDTH] = {
@@ -34,16 +36,7 @@ void playColorGame(User *user){
 			"\n\tc. Three (3) colors: x%d", MULTIPLIER_1, MULTIPLIER_2, MULTIPLIER_3	
 	);
 	
-	while(true){ // First run for gameplay loop
-		printf("\n\n============="); 
-		printf("\nWould you like to play?\n1. Yes\n2. No\n>> ");
-		scanf("%d", &prompt_play);
-		if(prompt_play == 1 || prompt_play == 2){ // 1 - Yes; 2 - No
-			break;
-		} else{
-			printf("\nError: Please choose between 'Yes' (1) or 'No' (2).");
-		}
-	}
+	askGameplayLoop(&prompt_play, "Would you like to play?"); // First gameplay loop
 
 	while(prompt_play == 1){
 		printf("\n\nName: %s | Balance: %d", user->name, user->balance); 
@@ -108,19 +101,10 @@ void playColorGame(User *user){
 		if(correct_guesses > 0){
 			printf("\n\nCongratulations! You got %d correct and won %d!", correct_guesses, bet);
 		} else{
-			printf("\n\nYou lost! You are now %d poorer!", bet);
+			printf("\n\nYou lost! You are now %d poorer!", bet*-1);
 		}
 
-		while(true){ // Reprompt gameplay loop, same functionality
-			printf("\n=============");
-			printf("\nWould you like to play again?\n1. Yes\n2. No\n>> "); 
-			scanf("%d", &prompt_play);
-			if(prompt_play == 1 || prompt_play == 2){
-				break;
-			} else{
-				printf("\nError: Please choose between 'Yes' (1) or 'No' (2).");
-			}
-		}
+		askGameplayLoop(&prompt_play, "Would you like to play again?");
 	} 
 	saveUser(user);
 	CLRSCR(); 
@@ -137,4 +121,17 @@ void printCube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int 
 		}
 		printf("\n");
 	} printf("%s", RESET);
+}
+
+void askGameplayLoop(int *play_switch, char message[]){
+	while(true){ // First run for gameplay loop
+		printf("\n\n============="); 
+		printf("\n%s\n1. Yes\n2. No\n>> ", message);
+		scanf("%d", play_switch);
+		if(*play_switch == 1 || *play_switch == 2){ // 1 - Yes; 2 - No
+			break;
+		} else{
+			printf("\nError: Please choose between 'Yes' (1) or 'No' (2).");
+		}
+	}
 }

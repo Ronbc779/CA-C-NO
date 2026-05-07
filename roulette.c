@@ -32,7 +32,7 @@ void displayTable() {
         for (int i = 1; i <= 36; i++) {
             if (i % 3 == (row == 0 ? 0 : row == 1 ? 2 : 1)) {
                 if (isRed(i)) printf("%s[%2d]%s ", RED, i, RESET);
-                else printf("[%2d] ", i);
+                else printf("%s[%2d]%s ", BLU, i, RESET);
             }
         }
         printf("\n");
@@ -41,12 +41,12 @@ void displayTable() {
     printf("\n%s--- OUTSIDE BETS ---%s\n", YEL, RESET);
     printf("37. 1st 12 (1-12)   38. 2nd 12 (13-24)  39. 3rd 12 (25-36)\n");
     printf("40. 1-18 (Low)      41. EVEN            42. %sRED%s\n", RED, RESET);
-    printf("43. BLACK           44. ODD             45. 19-36 (High)\n");
+    printf("43. %sBLACK%s           44. ODD             45. 19-36 (High)\n", BLU, RESET);
     printf("==============================================\n");
 }
 
 void spinAnimation(int finalResult) {
-    int animationCycles = 30;
+    int animationCycles = 35;
     int delay = 30;
 
     printf("\n%sSpinning the wheel...%s\n", BOLD, RESET);
@@ -55,7 +55,7 @@ void spinAnimation(int finalResult) {
         int tempIdx = rand() % 38;
         int num = wheel[tempIdx];
         
-        const char* color = (num == 0 || num == 00) ? GRN : (isRed(num) ? RED : RESET);
+        const char* color = (num == 0 || num == 00) ? GRN : (isRed(num) ? RED : BLU);
         
         printf("\r    %s>>%s  %s[%02d]%s  %s<<%s    ", CYN, RESET, color, num, RESET, CYN, RESET);
         fflush(stdout);
@@ -64,7 +64,7 @@ void spinAnimation(int finalResult) {
         if (i > 20) delay += 50; // Slowing down
     }
 
-    const char* finalColor = (finalResult == 0 || finalResult == 00) ? GRN : (isRed(finalResult) ? RED : RESET);
+    const char* finalColor = (finalResult == 0 || finalResult == 00) ? GRN : (isRed(finalResult) ? RED : BLU);
     printf("\r    ===> WINNING NUMBER: %s[%02d]%s <===    \n", finalColor, finalResult, RESET);
 }
 

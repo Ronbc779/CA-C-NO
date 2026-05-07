@@ -22,14 +22,14 @@ int calculateScore(Card hand[], int size);
 
 void playBlackjack(User *user) {
     int choice, bet;
-    printf("\n********BLACKJACK********\n");
-    printf("Rules:\n1. The goal is to be higher than your opponent without going over 21.\n2. Going over 21 automatically results in a loss.\n3. The dealer will keep hitting unless it has 17 or more.\n4. You automatically win when the dealer busts.\n=============\nWould you like to play?\n1. Yes\n2. No\n>> ");
+    printf("\n%s%s=== BLACKJACK RULES & REWARDS ===%s\n", BCYN, BOLD, RESET);
+    printf("Rules:\n1. The goal is to be higher than your opponent without going over 21.\n2. Going over 21 automatically results in a loss.\n3. The dealer will keep hitting unless it has 17 or more.\n4. You automatically win when the dealer busts.\nPays %s1 to 1%s\n=============\nWould you like to play?\n1. Yes\n2. No\n>> ", YEL, RESET);
     scanf("%d", &choice);
 
     if (choice == 2) return;
 
     do {
-        printf("\n********BLACKJACK********\n");
+        printf("\n%s%s=== BLACKJACK ===%s\n", BCYN, BOLD, RESET);
         printf("Balance: %d\n", user->balance);
         printf("Enter bet: ");
         scanf("%d", &bet);
@@ -132,7 +132,7 @@ void printHand(const char* owner, Card hand[], int size) {
         switch(hand[i].suit) {
             case 'H': suitColor = BRED; break; // Hearts: Bold Red
             case 'D': suitColor = RED;   break; // Diamonds: Standard Red
-            case 'S': suitColor = BLU; break; // Spades: Gold/Yellow
+            case 'S': suitColor = BLU; break; // Spades: Blue
             case 'C': suitColor = GRN;   break; // Clubs: Green
         }
         printf("[%s%c%s%c%s] ", suitColor, hand[i].rank, suitColor, hand[i].suit, RESET);

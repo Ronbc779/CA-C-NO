@@ -27,7 +27,7 @@
 
 typedef struct {
     char name[50];
-    int pin, balance, bj_wins, color_wins, roulette_wins, guess_wins, total_wins;
+    int pin, balance, bj_wins, color_wins, roulette_wins, guess_wins, highlow_wins, total_wins;
 } User;
 
 // prototypes
@@ -38,6 +38,7 @@ void playBlackjack(User *user);
 void playGuess(User *user);
 void playColorGame(User *user);
 void playRoulette(User *user);
+void playHighLow(User *user);
 void showLeaderboard();
 
 #endif

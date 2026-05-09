@@ -3,7 +3,7 @@
 #include <time.h>
 #include "casino.h"
 
-int main(){
+int playCloudNine(User *user){
     char ranks[13][3] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     char suits[4][2] = {"H", "D", "C", "S"};
     int bet = 0;

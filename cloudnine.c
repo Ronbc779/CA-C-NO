@@ -75,7 +75,7 @@ int main(){
             }
             else{
                 printf("\n====================\n");
-                printf("      🤝 DRAW 🤝\n");
+                printf("          DRAW \n");
                 printf(" BETTER LUCK NEXT TIME \n");
                 printf("====================\n");
             }

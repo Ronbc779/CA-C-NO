@@ -60,7 +60,7 @@ int main(){
                             playGuess(&user);
                             break;
                         case 5:
-                            // playHighLow(&user);
+                            playHighLow(&user);
                             break;
                         case 6:
                             playCloudNine(&user);

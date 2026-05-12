@@ -40,7 +40,7 @@ int main(){
                            "\n5. High Low"
                            "\n6. Cloud Nine"
                            "\n7. Show Leaderboard"
-                           "\7. Leave the gambling area\n>> ");
+                           "\n8. Leave the gambling area\n>> ");
                     scanf("%d",&game);
 
                     switch(game)
@@ -62,7 +62,10 @@ int main(){
                         case 5:
                             playHighLow(&user);
                             break;
-                        case 6: 
+                        case 6:
+                            playCloudNine(&user);
+                            break;
+                        case 7: 
                         //show the leaderboard
                             showLeaderboard();
                             break;

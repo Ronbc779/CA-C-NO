@@ -3,18 +3,7 @@
 #include <time.h>
 #include "casino.h"
 
-//function prototypes
-void display(char enter);
-void drawCards(int *card1, int *card2, int *suit1, int *suit2);
-void displayCards(char ranks[][3], char suits[][2], 
-                  int card1, int card2, 
-                  int suit1, int suit2);
-int cardValue(int card);
-int getScore(int value1, int value2);
-void determineWinner(int playerScore, int dealerScore);
-
-
-void playCloudNine(User *user){
+int main(){
     char ranks[13][3] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     char suits[4][2] = {"H", "D", "C", "S"};
     int bet = 0;

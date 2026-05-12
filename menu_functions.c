@@ -15,11 +15,11 @@ void signUp(){
     // Check duplicate PIN
     rewind(fp);
     char temp_name[50];
-    int balance, bj_wins, color_wins, roulette_wins, guess_wins, total_wins;
+    int balance, bj_wins, color_wins, roulette_wins, guess_wins, highlow_wins, total_wins;
 
-    while (fscanf(fp, "%s %d %d %d %d %d %d",
+    while (fscanf(fp, "%s %d %d %d %d %d %d %d",
                   temp_name,
-                  &balance, &bj_wins, &color_wins, &roulette_wins, &guess_wins, &total_wins) != EOF) {
+                  &balance, &bj_wins, &color_wins, &roulette_wins, &guess_wins, &highlow_wins, &total_wins) != EOF) {
 
         if (strcmp(temp_name, name) == 0) {
             printf("User already exists! Try another.\n");
@@ -29,7 +29,7 @@ void signUp(){
     }
 
     // Save new user
-    fprintf(fp, "%s %d %d %d %d %d %d\n", name, 100, 0, 0, 0, 0, 0);
+    fprintf(fp, "%s %d %d %d %d %d %d %d\n", name, 100, 0, 0, 0, 0, 0, 0);
     //nts: if name is yumeko, balance is 99999 and wins are 1000 frfr
     fclose(fp);
 
@@ -46,10 +46,10 @@ int verify(User *user) {
     scanf("%s", user->name);
 
 
-    while (fscanf(fp, "%s %d %d %d %d %d %d",
+    while (fscanf(fp, "%s %d %d %d %d %d %d %d",
                   temp.name, &temp.balance,
                   &temp.bj_wins, &temp.color_wins, &temp.roulette_wins,
-                  &temp.guess_wins, &temp.total_wins) != EOF) {
+                  &temp.guess_wins, &temp.highlow_wins, &temp.total_wins) != EOF) {
 
         //checks if same name with the current line in file
         if (strcmp(user->name, temp.name) == 0) {
@@ -74,24 +74,24 @@ void saveUser(User *user) {
     User temp;
 
     //goes through file line by line
-    while (fscanf(fp, "%s %d %d %d %d %d %d",
+    while (fscanf(fp, "%s %d %d %d %d %d %d %d",
                 temp.name, &temp.balance,
                   &temp.bj_wins, &temp.color_wins, &temp.roulette_wins,
-                  &temp.guess_wins, &temp.total_wins) != EOF) 
+                  &temp.guess_wins, &temp.highlow_wins, &temp.total_wins) != EOF) 
     {
 
         if (strcmp(user->name, temp.name) == 0) {
             //checks if name and pin matches then writes the updated values
-            fprintf(temp_fp, "%s %d %d %d %d %d %d\n",
+            fprintf(temp_fp, "%s %d %d %d %d %d %d %d\n",
                     user->name, user->balance,
                     user->bj_wins, user->color_wins, user->roulette_wins,
-                    user->guess_wins, user->total_wins);
+                    user->guess_wins, user->highlow_wins, user->total_wins);
         } else {
             //not the right one so copies the same values
-            fprintf(temp_fp, "%s %d %d %d %d %d %d\n",
+            fprintf(temp_fp, "%s %d %d %d %d %d %d %d\n",
                     temp.name, temp.balance,
                     temp.bj_wins, temp.color_wins, temp.roulette_wins,
-                    temp.guess_wins, temp.total_wins);
+                    temp.guess_wins, temp.highlow_wins, temp.total_wins);
         }
     }
 
@@ -114,10 +114,10 @@ void showLeaderboard() {
     int count = 0;
 
     // Read all users into an array and count them
-    while (fscanf(fp, "%s %d %d %d %d %d %d", 
+    while (fscanf(fp, "%s %d %d %d %d %d %d %d", 
            users[count].name, &users[count].balance,
            &users[count].bj_wins, &users[count].color_wins, &users[count].roulette_wins,
-           &users[count].guess_wins, &users[count].total_wins) != EOF) {
+           &users[count].guess_wins, &users[count].highlow_wins, &users[count].total_wins) != EOF) {
         count++;
     }
     fclose(fp);
@@ -125,11 +125,11 @@ void showLeaderboard() {
     int choice;
     //user chooses sorting filter
     printf("\n--- LEADERBOARD SELECTION ---\n");
-    printf("1. Blackjack Wins\n2. Slot Machine Wins\n3. Roulette Wins\n4. Guess Game\n5. Total Wins\n6. Total Earnings (Balance)\n>> ");
+    printf("1. Blackjack Wins\n2. Slot Machine Wins\n3. Roulette Wins\n4. Guess Game\n5. High Low Wins \n6. Total Wins\n7. Total Earnings (Balance)\n>> ");
     scanf("%d", &choice);
     
     //change later  if we add more games/choices
-    if(choice < 0 || choice > 6){
+    if(choice < 0 || choice > 7){
         printf("Please input among the choices.");
         return;
     }
@@ -148,9 +148,11 @@ void showLeaderboard() {
                     break;
                 case 4: val1 = users[j].guess_wins; val2 = users[j+1].guess_wins;     
                     break;
-                case 5: val1 = users[j].total_wins; val2 = users[j+1].total_wins;     
+                case 5: val1 = users[j].highlow_wins; val2 = users[j+1].highlow_wins;
                     break;
-                case 6: val1 = users[j].balance; val2 = users[j+1].balance;
+                case 6: val1 = users[j].total_wins; val2 = users[j+1].total_wins;     
+                    break;
+                case 7: val1 = users[j].balance; val2 = users[j+1].balance;
                     break;
                 default: val1 = users[j].total_wins; val2 = users[j+1].total_wins;
                     break;
@@ -164,7 +166,7 @@ void showLeaderboard() {
             }
         }
     }
-    if(choice == 6){
+    if(choice == 7){
         printf("\n%-15s | %-10s\n", "NAME", "BALANCE");
         printf("---------------------------\n");
         for (int i = 0; i < count; i++) {
@@ -182,7 +184,8 @@ void showLeaderboard() {
             int display = (choice == 1) ? users[i].bj_wins :
                         (choice == 2) ? users[i].color_wins :
                         (choice == 3) ? users[i].roulette_wins : 
-                        (choice == 4) ? users[i].guess_wins : users[i].total_wins;
+                        (choice == 4) ? users[i].guess_wins : 
+                        (choice == 5) ? users[i].highlow_wins : users[i].total_wins;
                             
             printf("%-15s | %-10d\n", users[i].name, display);
         }

@@ -1,0 +1,223 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include "casino.h"
+
+#define DECK_SIZE 52
+
+//Card Struct
+typedef struct {
+    char suit[10];
+    int value;
+    char color[6];
+} Card;
+
+Card deck[DECK_SIZE];
+int deckIndex = 0;
+
+//Create Deck
+void initializeDeck() {
+    char *suits[] = {"Hearts","Diamonds","Clubs","Spades"};
+    int index = 0;
+
+    for(int s=0; s<4; s++) {
+        for(int v=1; v<=13; v++) {
+
+            //Copy suit name into card
+            strcpy(deck[index].suit, suits[s]);
+            deck[index].value = v;
+
+            if(s==0 || s==1)
+                strcpy(deck[index].color,"Red");
+            else
+                strcpy(deck[index].color,"Black");
+            index++;
+        }
+    }
+}
+
+//Shuffling the Deck
+void shuffleDeck() {
+    for(int i=0;i<DECK_SIZE;i++){
+        int r = rand()%DECK_SIZE; //Random Index
+        //Swap Cards
+        Card temp = deck[i];
+        deck[i] = deck[r];
+        deck[r] = temp;
+    }
+    deckIndex = 0;
+}
+
+//Drawing a card
+Card drawHighLowCard() {
+    return deck[deckIndex++];
+}
+
+//Converts card no. into readable name
+char* valueName(int v){
+    static char name[6];
+
+    switch(v){
+        case 1: return "Ace";
+        case 11: return "Jack";
+        case 12: return "Queen";
+        case 13: return "King";
+        default:
+            sprintf(name,"%d",v);
+            return name;
+    }
+}
+
+//--------GAME ROUNDS---------//
+
+//Guesses Color (Red/Black)
+void redBlackRound(Card first, int *reward, int bet){
+    char guess[10];
+
+    printf("\nRed or Black? ");
+    scanf("%s",guess);
+
+    if(strcasecmp(guess,first.color)==0){
+        *reward += bet;
+        printf("Correct!\n");
+    }
+    else{
+        *reward -= bet/2;
+        printf("Wrong!\n");
+    }
+}
+
+//Guesses Tier (High/Low)
+Card highLowRound(Card prev, int *reward, int bet){
+    char guess[10];
+    Card next = drawHighLowCard();
+
+    printf("\nHigher or Lower? ");
+    scanf("%s",guess);
+
+    if( (strcasecmp(guess,"Higher")==0 && next.value>prev.value) ||
+        (strcasecmp(guess,"Lower")==0 && next.value<prev.value) )
+    {
+        *reward += bet;
+        printf("Correct!\n");
+    }
+    else{
+        *reward -= bet/2;
+        printf("Wrong!\n");
+    }
+    printf("Card: %s of %s\n",
+           valueName(next.value), next.suit);
+    return next;
+}
+
+//Guesses Bound (In/Out)
+Card insideOutsideRound(Card c1, Card c2, int *reward, int bet){
+    char guess[15];
+    Card third = drawHighLowCard();
+
+    int min = c1.value<c2.value?c1.value:c2.value;
+    int max = c1.value>c2.value?c1.value:c2.value;
+
+    printf("\nInside or Outside? ");
+    scanf("%s",guess);
+
+    int inside = (third.value>min && third.value<max);
+
+    if( (strcasecmp(guess,"Inside")==0 && inside) ||
+        (strcasecmp(guess,"Outside")==0 && !inside))
+    {
+        *reward += bet;
+        printf("Correct!\n");
+    }
+    else{
+        *reward -= bet/2;
+        printf("Wrong!\n");
+    }
+    printf("Card: %s of %s\n",
+           valueName(third.value), third.suit);
+
+    return third;
+}
+
+//Twist
+void doubleOrNothingRound(int *reward){
+    char choice[10];
+
+    printf("\nDouble, Nothing, or Keep? ");
+    scanf("%s",choice);
+
+    if(strcasecmp(choice,"Double")==0){
+
+        int guess;
+        Card final = drawHighLowCard();
+
+        printf("Guess number (1-13): ");
+        scanf("%d",&guess);
+
+        if(guess==final.value){
+            *reward *=2;
+            printf("DOUBLED!\n");
+        }
+        else{
+            *reward = 0;
+            printf("Lost everything!\n");
+        }
+    }
+    else if(strcasecmp(choice,"Nothing")==0){
+        *reward = 0;
+    }
+}
+void playHighLow(User *user){
+    srand(time(NULL));
+
+    int bet;
+    char again[10];
+
+    do{
+        initializeDeck();
+        shuffleDeck();
+
+        printf("\n=== HIGH LOW ===\n");
+        printf("Balance: %d\n",user->balance);
+
+        printf("Enter bet: ");
+        scanf("%d",&bet);
+
+        if(bet<=0 || bet>user->balance){
+            printf("Invalid bet.\n");
+            return;
+        }
+
+        user->balance -= bet;
+        int reward = bet;
+
+        Card first = drawHighLowCard();
+        printf("\nFirst Card: %s of %s\n",
+               valueName(first.value),
+               first.suit);
+        redBlackRound(first,&reward,bet);
+
+        Card second = highLowRound(first,&reward,bet);
+        insideOutsideRound(first,second, &reward,bet);
+
+        doubleOrNothingRound(&reward);
+        
+        if(reward<0) reward=0; //Prevent negative reward
+        user->balance += reward;
+
+        if(reward>bet){
+            user->highlow_wins++;
+            user->total_wins++;
+        }
+
+        printf("\nReward: %d\n",reward);
+        printf("New Balance: %d\n",user->balance);
+
+        saveUser(user);
+
+        printf("\nPlay High-Low again? (yes/no): ");
+        scanf("%s",again);
+
+    }while(strcasecmp(again,"yes")==0);
+}

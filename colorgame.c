@@ -25,6 +25,8 @@ void playColorGame(User *user){
 		BLU, MAG, CYN
 	};
 	
+	int *balance = &user->balance;
+	int *wins = &user->color_wins;
 	int prompt_play; 
 
 	// Prints rules and odds
@@ -39,9 +41,8 @@ void playColorGame(User *user){
 	askGameplayLoop(&prompt_play, "Would you like to play?"); // First gameplay loop
 
 	while(prompt_play == 1){
-		printf("\n\nName: %s | Balance: %d", user->name, user->balance); 
+		printf("\n\nName: %s | Balance: %d | Wins: %d", user->name, *balance, *wins); 
 		
-		int *balance = &user->balance; // Simplified assignment for user balance
 		int random_colors[CUBE_COUNT]; 	// Storage of random colors for comparison
 		// Default initialization for each gameplay loop
 		int bet = 0; int user_color = 0; int correct_guesses = 0; 
@@ -96,7 +97,14 @@ void playColorGame(User *user){
 			default: 
 				bet *= -1;
 				break;
-		} *balance += bet;
+		} 
+		
+		*balance += bet; // Updates balance 
+		if(correct_guesses>0){ // Adds to wins leaderboard
+			printf("Wins before: %d", *wins);
+			wins++;
+			printf("Wins after: %d", *wins);
+		}
 
 		if(correct_guesses > 0){
 			printf("\n\nCongratulations! You got %d correct and won %d!", correct_guesses, bet);

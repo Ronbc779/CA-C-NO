@@ -15,8 +15,8 @@
 #define MULTIPLIER_3 3
 
 void printCube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int chosen_color);
-
 void askGameplayLoop(int *play_switch, char message[]);
+void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses);
 
 void playColorGame(User *user){
 	// Fetches ANSI color codes for cube faces.
@@ -83,31 +83,7 @@ void playColorGame(User *user){
 			printCube(colors, CUBE_HEIGHT, random_colors[i]);
 		}
 
-		printf("\n\nCorrect Guesses: %d", correct_guesses);
-		switch(correct_guesses){
-			case 1:  
-				bet *= MULTIPLIER_1;
-				break; // No change to winnings
-			case 2:
-				bet *= MULTIPLIER_2;
-				break;
-			case 3:
-				bet *= MULTIPLIER_3;
-				break;
-			default: 
-				bet *= -1;
-				break;
-		} 
-		
-		*balance += bet; // Updates balance 
-		
-		if(correct_guesses > 0){
-			(*wins)++;
-			printf("\n\nCongratulations! You got %d correct and won %d!", correct_guesses, bet);
-		} else{
-			printf("\n\nYou lost! You are now %d poorer!", bet*-1);
-		}
-
+		updatePlayerStatistics(balance, wins, &bet, correct_guesses);
 		askGameplayLoop(&prompt_play, "Would you like to play again?");
 	} 
 	saveUser(user);
@@ -137,5 +113,32 @@ void askGameplayLoop(int *play_switch, char message[]){
 		} else{
 			printf("\nError: Please choose between 'Yes' (1) or 'No' (2).");
 		}
+	}
+}
+
+void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses){
+	printf("\n\nCorrect Guesses: %d", correct_guesses);
+	switch(correct_guesses){
+		case 1:  
+			*bet *= MULTIPLIER_1;
+			break;
+		case 2:
+			*bet *= MULTIPLIER_2;
+			break; 
+		case 3:
+			*bet *= MULTIPLIER_3;
+			break;
+		default: 
+			*bet *= -1;
+			break;
+	} 
+	
+	*balance += *bet; // Updates balance 
+
+	if(correct_guesses > 0){
+		(*wins)++;
+		printf("\n\nCongratulations! You got %d correct and won %d!", correct_guesses, *bet);
+	} else{
+		printf("\n\nYou lost! You are now %d poorer!", *bet*-1);
 	}
 }

@@ -71,7 +71,7 @@ int main(){
                             break;
                         default: continue;
                     }
-                } while (game != 7);
+                } while (game != 8);
 
             } 
         }

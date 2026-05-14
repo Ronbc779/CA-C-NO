@@ -16,6 +16,8 @@
 
 void printCube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int chosen_color);
 void askGameplayLoop(int *play_switch, char message[]);
+void askBetAmount(int *bet, int *balance);
+void askColorGuess();
 void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses);
 
 void playColorGame(User *user){
@@ -47,19 +49,7 @@ void playColorGame(User *user){
 		// Default initialization for each gameplay loop
 		int bet = 0; int user_color = 0; int correct_guesses = 0; 
 		
-		while(true){
-			printf("\nPlace your bet!\n>>> ");
-			scanf("%d", &bet);
-			// Stop case: Bet is within balance
-			if(bet <= *balance && bet > 0){ 
-				break;
-			// Error: Bet larger than balance
-			} else if (bet > *balance && bet > 0){
-				printf("\nError: Insufficient! (Bet: %d | Balance: %d)", bet, *balance);
-			} else{
-				printf("\nError: Invalid input Bet must be greater than 0! (Bet: %d)", bet);
-			}
-		}
+		askBetAmount(&bet, balance);
 
 		while(true){
 			printf("\n\nPick one color to bet on:"
@@ -82,7 +72,7 @@ void playColorGame(User *user){
 			printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
 			printCube(colors, CUBE_HEIGHT, random_colors[i]);
 		}
-
+		
 		updatePlayerStatistics(balance, wins, &bet, correct_guesses);
 		askGameplayLoop(&prompt_play, "Would you like to play again?");
 	} 
@@ -115,6 +105,24 @@ void askGameplayLoop(int *play_switch, char message[]){
 		}
 	}
 }
+
+void askBetAmount(int *bet, int *balance){
+	while(true)
+	{
+		printf("\nPlace your bet!\n>>> ");
+		scanf("%d", bet);
+		// Stop case: Bet is within balance
+		if(*bet <= *balance && *bet > 0){ 
+			break;
+		// Error: Bet larger than balance
+		} else if (*bet > *balance && *bet > 0){
+			printf("\nError: Insufficient! (Bet: %d | Balance: %d)", *bet, *balance);
+		} else{
+			printf("\nError: Invalid input Bet must be greater than 0! (Bet: %d)", *bet);
+		}
+	}
+}
+
 
 void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses){
 	printf("\n\nCorrect Guesses: %d", correct_guesses);

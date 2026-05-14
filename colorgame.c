@@ -100,13 +100,9 @@ void playColorGame(User *user){
 		} 
 		
 		*balance += bet; // Updates balance 
-		if(correct_guesses>0){ // Adds to wins leaderboard
-			printf("Wins before: %d", *wins);
-			wins++;
-			printf("Wins after: %d", *wins);
-		}
-
+		
 		if(correct_guesses > 0){
+			(*wins)++;
 			printf("\n\nCongratulations! You got %d correct and won %d!", correct_guesses, bet);
 		} else{
 			printf("\n\nYou lost! You are now %d poorer!", bet*-1);

@@ -18,6 +18,8 @@ void printCube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int 
 void askGameplayLoop(int *play_switch, char message[]);
 void askBetAmount(int *bet, int *balance);
 void askColorGuess(int *color_choice);
+void chooseRandomColor(int random_colors[CUBE_COUNT], char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], 
+	int user_choice, int *correct_guesses);
 void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses);
 
 void playColorGame(User *user){
@@ -51,17 +53,7 @@ void playColorGame(User *user){
 		
 		askBetAmount(&bet, balance);
 		askColorGuess(&user_color);
-
-		for(int i = 0; i<CUBE_COUNT; i++){
-			// Chooses random color for the ith cube
-			random_colors[i] = rand()%COLOR_CHOICES;
-			if(random_colors[i] == user_color){
-				correct_guesses++;
-			}
-			printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
-			printCube(colors, CUBE_HEIGHT, random_colors[i]);
-		}
-		
+		chooseRandomColor(random_colors, colors, user_color, &correct_guesses);
 		updatePlayerStatistics(balance, wins, &bet, correct_guesses);
 		askGameplayLoop(&prompt_play, "Would you like to play again?");
 	} 
@@ -125,7 +117,19 @@ void askColorGuess(int *color_choice){
 			printf("Error: Invalid input! (Must be between 1 and %d)", COLOR_CHOICES);
 		}
 	}
+}
 
+void chooseRandomColor(int random_colors[CUBE_COUNT], char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], 
+	int user_choice, int *correct_guesses){
+	for(int i = 0; i<CUBE_COUNT; i++){
+		// Chooses random color for the ith cube
+		random_colors[i] = rand()%COLOR_CHOICES;
+		if(random_colors[i] == user_choice){
+			(*correct_guesses)++;
+		}
+		printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
+		printCube(colors, CUBE_HEIGHT, random_colors[i]);
+	}
 }
 
 void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses){

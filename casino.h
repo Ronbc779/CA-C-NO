@@ -37,8 +37,9 @@ void saveUser(User *user);
 void playBlackjack(User *user);
 void playGuess(User *user);
 void playColorGame(User *user);
-void playRoulette(User *user);
 void playHighLow(User *user);
+void playRoulette(User *user);
+void playCloudNine(User *user);
 void showLeaderboard();
 
 #endif

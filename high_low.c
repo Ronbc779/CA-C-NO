@@ -168,9 +168,8 @@ void doubleOrNothingRound(int *reward){
         *reward = 0;
     }
 }
-void playHighLow(User *user){
-    srand(time(NULL));
 
+void playHighLow(User *user){
     int bet;
     char again[10];
 

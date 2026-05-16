@@ -69,7 +69,12 @@ int main(){
                         //show the leaderboard
                             showLeaderboard();
                             break;
-                        default: continue;
+                        case 8:
+                            printf("\nExiting the gambling arena...\n");
+                            break;
+                        default: 
+                            printf("\nError: Please choose a valid option!\n");
+                            continue;
                     }
                 } while (game != 8);
 

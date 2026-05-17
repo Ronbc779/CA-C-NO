@@ -40,6 +40,7 @@ void playColorGame(User *user);
 void playHighLow(User *user);
 void playRoulette(User *user);
 void playCloudNine(User *user);
+void playWordGuess(User *user);
 void showLeaderboard();
 
 #endif

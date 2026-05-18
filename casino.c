@@ -39,8 +39,9 @@ int main(){
                            "\n4. Guess Game"
                            "\n5. High Low"
                            "\n6. Cloud Nine"
-                           "\n7. Show Leaderboard"
-                           "\n8. Leave the gambling area\n>> ");
+                           "\n7. Hangman"
+                           "\n8. Show Leaderboard"
+                           "\n9. Leave the gambling area\n>> ");
                     scanf("%d",&game);
 
                     switch(game)
@@ -60,18 +61,25 @@ int main(){
                             playGuess(&user);
                             break;
                         case 5:
-                            // playHighLow(&user);
+                            playHighLow(&user);
                             break;
                         case 6:
                             playCloudNine(&user);
                             break;
-                        case 7: 
+                        case 7:
+                            playWordGuess(&user);
+                        case 8: 
                         //show the leaderboard
                             showLeaderboard();
                             break;
-                        default: continue;
+                        case 9:
+                            printf("\nExiting the gambling arena...\n");
+                            break;
+                        default: 
+                            printf("\nError: Please choose a valid option!\n");
+                            continue;
                     }
-                } while (game != 7);
+                } while (game != 9);
 
             } 
         }

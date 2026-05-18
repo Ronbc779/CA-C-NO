@@ -13,16 +13,16 @@ int main(){
 
     while(1)
     {
-        printf("\n=====CA-C-NO 2.0=====\n");
+        printf("\n=====%sCA-C-NO %s2.0=====\n", RED, RESET);
         printf("1. Enter\n");
-        printf("2. Exit\n");
+        printf("2. %sExit%s\n", RED, RESET);
         printf(">> ");
         scanf("%d",&choice);
 
         if(choice == 2)
             break;
 
-        printf("\n1. Register\n2. Already a member\n3. Exit\n>> ");
+        printf("\n1. Register\n2. Already a member\n3. %sExit%s\n>> ", RED, RESET);
         scanf("%d", &choice);
 
         if (choice == 1) {
@@ -41,17 +41,16 @@ int main(){
                            "\n6. Cloud Nine"
                            "\n7. Hangman"
                            "\n8. Show Leaderboard"
-                           "\n9. Leave the gambling area\n>> ");
+                           "\n9. %sLeave the gambling area%s\n>> ", RED, RESET);
                     scanf("%d",&game);
 
                     switch(game)
                     {
+                        //plays games in separate files
                         case 1: 
-                        //plays blackjack in seperate file
                            playBlackjack(&user);
                             break;
                         case 2:
-						//plays colorgame in separate file
 							playColorGame(&user);
                             break;
                         case 3: 
@@ -73,10 +72,10 @@ int main(){
                             showLeaderboard();
                             break;
                         case 9:
-                            printf("\nExiting the gambling arena...\n");
+                            printf("\nExiting the gambling den...\n");
                             break;
                         default: 
-                            printf("\nError: Please choose a valid option!\n");
+                            printf("\nPlease choose a valid option!\n");
                             continue;
                     }
                 } while (game != 9);

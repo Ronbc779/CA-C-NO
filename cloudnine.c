@@ -4,8 +4,7 @@
 #include <unistd.h>
 #include "casino.h"
 
-//function prototypes
-void display(char enter);
+void display();
 void drawCards(int *card1, int *card2, int *suit1, int *suit2);
 void displayCards(char ranks[][3], char suits[][2],
                   int card1, int card2,
@@ -14,7 +13,6 @@ int cardValue(int card);
 int getScore(int value1, int value2);
 void determineWinner(int playerScore, int dealerScore);
 
-// ===== ANIMATION FUNCTIONS =====
 void typeText(const char *text, int delay){
     while(*text){
         printf("%c", *text);
@@ -24,31 +22,33 @@ void typeText(const char *text, int delay){
     }
 }
 
+
 void loadingAnimation(){
+
     printf(BYEL "\nShuffling cards");
     fflush(stdout);
 
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 6; i++){
         printf(".");
         fflush(stdout);
-        usleep(250000);
+        usleep(500000);
     }
 
     printf(RESET "\n");
+    usleep(500000);
 }
 
-// ===== MAIN GAME =====
+
 void playCloudNine(User *user){
 
     char ranks[13][3] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
     char suits[4][2] = {"H","D","C","S"};
 
     char playAgain = 'Y';
-    char enter = ' ';
 
     srand(time(0));
 
-    display(enter);
+    display();
 
     do{
 
@@ -65,10 +65,10 @@ void playCloudNine(User *user){
         drawCards(&playerCard1, &playerCard2, &playerSuit1, &playerSuit2);
         drawCards(&dealerCard1, &dealerCard2, &dealerSuit1, &dealerSuit2);
 
-        printf(BGRN "\n++++++ P L A Y E R ++++++\n" RESET);
+        printf(BGRN "\n++++++ PLAYER ++++++\n" RESET);
         displayCards(ranks, suits, playerCard1, playerCard2, playerSuit1, playerSuit2);
 
-        printf(BRED "\n++++++ D E A L E R ++++++\n" RESET);
+        printf(BRED "\n++++++ DEALER ++++++\n" RESET);
         displayCards(ranks, suits, dealerCard1, dealerCard2, dealerSuit1, dealerSuit2);
 
         int playerValue1 = cardValue(playerCard1);
@@ -86,13 +86,14 @@ void playCloudNine(User *user){
         printf(MAG "\nCalculating result");
         fflush(stdout);
 
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 4; i++){
             printf(".");
             fflush(stdout);
-            usleep(300000);
+            usleep(600000);
         }
 
         printf("\n");
+        usleep(500000);
 
         determineWinner(playerScore, dealerScore);
 
@@ -102,8 +103,8 @@ void playCloudNine(User *user){
     }while(playAgain == 'Y' || playAgain == 'y');
 }
 
-// =====DISPLAY=====
-void display(char enter){
+
+void display(){
 
     CLRSCR();
 
@@ -121,26 +122,30 @@ void display(char enter){
     printf("=====================================\n");
     printf(RESET);
 
-    printf(BGRN "Press ENTER to play: " RESET);
-    scanf("%c", &enter);
+    printf(BGRN "\nPress ENTER to play..." RESET);
 
-    if(enter == '\n'){
+    getchar();   // clears leftover input
+    getchar();   // waits for real ENTER
 
-        CLRSCR();
+    CLRSCR();
 
-        printf(BCYN "RULES:\n\n" RESET);
+    printf(BCYN "RULES:\n\n" RESET);
 
-        typeText("Each player gets 2 cards!\n", 20000);
-        typeText("Try to get closest to 9!\n", 20000);
-        typeText("A=1, 2-9 face value, 10/J/Q/K=0\n", 20000);
-        typeText("Closest wins!\n\n", 20000);
+    typeText("Each player gets 2 cards!\n", 50000);
+    usleep(400000);
 
-        printf(BMAG "Good luck gambler...\n\n" RESET);
-        usleep(800000);
-    }
+    typeText("Try to get closest to 9!\n", 50000);
+    usleep(400000);
+
+    typeText("A=1, 2-9 face value, 10/J/Q/K=0\n", 50000);
+    usleep(400000);
+
+    typeText("Closest wins!\n\n", 50000);
+
+    printf(BMAG "Good luck gambler...\n\n" RESET);
+    usleep(1000000);
 }
 
-// ===== CARD DRAW =====
 void drawCards(int *card1, int *card2, int *suit1, int *suit2){
 
     do{
@@ -152,7 +157,7 @@ void drawCards(int *card1, int *card2, int *suit1, int *suit2){
     }while((*card1 == *card2) && (*suit1 == *suit2));
 }
 
-// ===== CARD DISPLAY WITH ANIMATION =====
+
 void displayCards(char ranks[][3], char suits[][2],
                   int card1, int card2,
                   int suit1, int suit2){
@@ -160,23 +165,24 @@ void displayCards(char ranks[][3], char suits[][2],
     printf(BYEL "\nDrawing card");
     fflush(stdout);
 
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < 4; i++){
         printf(".");
         fflush(stdout);
-        usleep(200000);
+        usleep(300000);
     }
 
     printf("\n");
+    usleep(500000);
 
     printf(BRED "%s%s\n" RESET, ranks[card1], suits[suit1]);
-    usleep(300000);
+    usleep(800000);
 
     printf(BLU "%s%s\n" RESET, ranks[card2], suits[suit2]);
+    usleep(600000);
 
     printf("\n");
 }
 
-// ===== GAME LOGIC =====
 int cardValue(int card){
     return (card == 0) ? 1 : (card >= 9 ? 0 : card + 1);
 }
@@ -185,7 +191,7 @@ int getScore(int value1, int value2){
     return abs(9 - ((value1 + value2) % 10));
 }
 
-// ===== WINNER =====
+
 void determineWinner(int playerScore, int dealerScore){
 
     usleep(500000);

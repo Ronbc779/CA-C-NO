@@ -142,7 +142,7 @@ Card insideOutsideRound(Card c1, Card c2, int *reward, int bet){
 
 //Twist
 void doubleOrNothingRound(int *reward){
-    char choice[10];
+    int choice;
 
     printf("\n%sDouble or Nothing?%s\n1. Yes\n2. No\n>> ", MAG, RESET);
     scanf("%s",choice);

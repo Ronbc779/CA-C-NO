@@ -63,10 +63,10 @@ int main(){
                             playHighLow(&user);
                             break;
                         case 6:
-                            playRoulette(&user);
+                            playGuess(&user);
                             break;
                         case 7:
-                            playGuess(&user);
+                            playRoulette(&user);
                             break;
                         case 8: 
                         //show the leaderboard

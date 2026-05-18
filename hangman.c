@@ -4,9 +4,12 @@
 #include <ctype.h>
 #include "casino.h"
 
+// Defined a safe upper limit for string buffers to prevent structural overflows
+#define MAX_WORD_LEN 32
+
 typedef struct {
-    char category[20];
-    char word[20];
+    char category[MAX_WORD_LEN];
+    char word[MAX_WORD_LEN];
 } WordBank;
 
 void playWordGuess(User *user) {
@@ -65,7 +68,7 @@ void playWordGuess(User *user) {
         int len = strlen(target);
        
         // Build hidden display string
-        char hidden[21];
+        char hidden[MAX_WORD_LEN];
         for(int i = 0; i < len; i++) {
             // Automatically reveal hyphens (e.g., KWEK-KWEK) so players don't guess symbols
             if (target[i] == '-') {
@@ -80,10 +83,8 @@ void playWordGuess(User *user) {
         int lives = len;
         int initialLives = len;
       
-
         // Tracks alphabet choices (A to Z) to stop punishing duplicate guesses
         int guessedLetters[26] = {0}; 
-
 
         printf("\nCategory: %s%s%s", BYEL, bank[idx].category, RESET);
 
@@ -95,7 +96,6 @@ void playWordGuess(User *user) {
           
             char guess;
             scanf(" %c", &guess);
-            while(getchar() != '\n');
 
             guess = toupper(guess);
 
@@ -129,7 +129,7 @@ void playWordGuess(User *user) {
             }
         }
 
-        // Post-game evaluation logic
+
         if (strcmp(target, hidden) == 0) {
             // Multiplier payout setup based on performance
             float multiplier = 1.0f + ((float)lives / initialLives);
@@ -162,3 +162,7 @@ void playWordGuess(User *user) {
         if (scanf("%d", &choice) != 1) {
             while(getchar() != '\n');
             break; // Exit game loop safely if unexpected character is passed here
+        }
+
+    } while (choice == 1);
+}

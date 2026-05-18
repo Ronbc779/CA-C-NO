@@ -11,7 +11,7 @@ void displayCards(char ranks[][3], char suits[][2],
                   int suit1, int suit2);
 int cardValue(int card);
 int getScore(int value1, int value2);
-void determineWinner(int playerScore, int dealerScore);
+void determineWinner(User *user, int bet, int playerScore, int dealerScore);
 
 void typeText(const char *text, int delay){
     while(*text){
@@ -43,7 +43,6 @@ void playCloudNine(User *user){
 
     char ranks[13][3] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
     char suits[4][2] = {"H","D","C","S"};
-
     char playAgain = 'Y';
 
     srand(time(0));
@@ -53,6 +52,16 @@ void playCloudNine(User *user){
     do{
 
         CLRSCR();
+        int bet;
+        printf("Balance: %d\n", user->balance);
+        printf("Enter bet: ");
+        scanf("%d", &bet);
+
+        if (bet <= 0 || bet > user->balance) {
+            printf("Invalid bet!\n");
+            usleep(800000);
+            continue;
+        }
 
         int playerCard1, playerCard2;
         int playerSuit1, playerSuit2;
@@ -95,13 +104,16 @@ void playCloudNine(User *user){
         printf("\n");
         usleep(500000);
 
-        determineWinner(playerScore, dealerScore);
+        determineWinner(user, bet, playerScore, dealerScore);
 
         printf(BYEL "\nPlay again? (Y/N): " RESET);
         scanf(" %c", &playAgain);
 
     }while(playAgain == 'Y' || playAgain == 'y');
+    
+    saveUser(user);
 }
+
 
 
 void display(){
@@ -195,17 +207,19 @@ int getScore(int value1, int value2){
 }
 
 // ================= WINNER =================
-void determineWinner(int playerScore, int dealerScore){
-
-    usleep(500000);
-
-    if(playerScore > dealerScore){
+void determineWinner(User *user, int bet, int playerScore, int dealerScore){
+    if (playerScore > dealerScore) {
         printf(BGRN "\nPLAYER WINS!\nYOU HIT LUCKY 9\n" RESET);
+
+        user->balance += bet;
+        user->total_wins++;
     }
-    else if(dealerScore > playerScore){
+    else if (dealerScore > playerScore) {
         printf(BRED "\nDEALER WINS!\nHOUSE TAKES IT!\n" RESET);
+
+        user->balance -= bet;
     }
-    else{
-        printf(BYEL "\nDRAW!\nBETTER LUCK NEXT TIME\n" RESET);
+    else {
+        printf(BYEL "\nDRAW!\nBET RETURNED\n" RESET);
     }
 }

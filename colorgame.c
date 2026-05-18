@@ -34,12 +34,12 @@ void playColorGame(User *user){
 	int prompt_play; 
 
 	// Prints rules and odds
-	printf("%s\n********COLOR GAME********%s" 
+	printf("%s\n========COLOR GAME========%s" 
 			"\n1. Pick one color from the list"
 			"\n2. Wait for the roll to happen and see if you're lucky! For hits:"
 			"\n\ta. One (1) color: x%d"
 			"\n\tb. Two (2) colors: x%d"	
-			"\n\tc. Three (3) colors: x%d", BWHT, RESET, MULTIPLIER_1, MULTIPLIER_2, MULTIPLIER_3	
+			"\n\tc. Three (3) colors: x%d", BCYN, RESET, MULTIPLIER_1, MULTIPLIER_2, MULTIPLIER_3	
 	);
 	
 	askGameplayLoop(&prompt_play, "Would you like to play?"); // First gameplay loop

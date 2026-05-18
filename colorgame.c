@@ -34,18 +34,19 @@ void playColorGame(User *user){
 	int prompt_play; 
 
 	// Prints rules and odds
-	printf("\n********COLOR GAME********"
+	printf("%s\n********COLOR GAME********%s" 
 			"\n1. Pick one color from the list"
 			"\n2. Wait for the roll to happen and see if you're lucky! For hits:"
 			"\n\ta. One (1) color: x%d"
 			"\n\tb. Two (2) colors: x%d"	
-			"\n\tc. Three (3) colors: x%d", MULTIPLIER_1, MULTIPLIER_2, MULTIPLIER_3	
+			"\n\tc. Three (3) colors: x%d", BWHT, RESET, MULTIPLIER_1, MULTIPLIER_2, MULTIPLIER_3	
 	);
 	
 	askGameplayLoop(&prompt_play, "Would you like to play?"); // First gameplay loop
 
 	while(prompt_play == 1){
-		printf("\n\nName: %s | Balance: %d | Wins: %d", user->name, *balance, *wins); 
+		printf("\n\nName: %s%s%s | Balance: %s%d%s | Wins: %s%d%s", 
+			YEL, user->name, RESET, YEL, *balance, RESET, YEL, *wins, RESET); 
 		
 		int random_colors[CUBE_COUNT]; 	// Storage of random colors for comparison
 		// Default initialization for each gameplay loop
@@ -78,12 +79,12 @@ void printCube(char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], int cube_size, int 
 void askGameplayLoop(int *play_switch, char message[]){
 	while(true){ // First run for gameplay loop
 		printf("\n\n============="); 
-		printf("\n%s\n1. Yes\n2. No\n>> ", message);
+		printf("\n%s\n1. %sYes%s\n2. %sNo%s\n>> ", message, GRN, RESET, RED, RESET);
 		scanf("%d", play_switch);
 		if(*play_switch == 1 || *play_switch == 2){ // 1 - Yes; 2 - No
 			break;
 		} else{
-			printf("\nError: Please choose between 'Yes' (1) or 'No' (2).");
+			printf("\n%sError:%s Please choose between 'Yes' (1) or 'No' (2).", BRED, RESET);
 		}
 	}
 }
@@ -111,6 +112,7 @@ void askColorGuess(int *color_choice){
 				"\n1. Red\n2. Green\n3. Yellow\n4. Blue\n5. Magenta\n6. Cyan\n>>> "
 		);
 		scanf("%d", color_choice);
+		// Stop case: Valid option within color choice
 		if(*color_choice > 0 && *color_choice <= COLOR_CHOICES){
 			(*color_choice)--; break; // Decrement for index syntax and random color comparison
 		} else{
@@ -125,7 +127,7 @@ void chooseRandomColor(int random_colors[CUBE_COUNT], char colors[COLOR_CHOICES]
 		// Chooses random color for the ith cube
 		random_colors[i] = rand()%COLOR_CHOICES;
 		if(random_colors[i] == user_choice){
-			(*correct_guesses)++;
+			(*correct_guesses)++; //Increment if user guess the same as random color 
 		}
 		printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
 		printCube(colors, CUBE_HEIGHT, random_colors[i]);
@@ -133,6 +135,7 @@ void chooseRandomColor(int random_colors[CUBE_COUNT], char colors[COLOR_CHOICES]
 }
 
 void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses){
+	// Shows guesses for playthrough
 	printf("\n\nCorrect Guesses: %d", correct_guesses);
 	switch(correct_guesses){
 		case 1:  
@@ -152,7 +155,7 @@ void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guess
 	*balance += *bet; // Updates balance 
 
 	if(correct_guesses > 0){
-		(*wins)++;
+		(*wins)++; // Increments color game wins
 		printf("\n\nCongratulations! You got %d correct and won %d!", correct_guesses, *bet);
 	} else{
 		printf("\n\nYou lost! You are now %d poorer!", *bet*-1);

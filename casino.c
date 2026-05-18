@@ -33,13 +33,13 @@ int main(){
             if (verify(&user)) {
                 do{
                     printf("\n=======%sChoose Game%s======="
-                           "\n1. Blackjack"
-                           "\n2. Color Game"
-                           "\n3. Roulette"
-                           "\n4. Guess Game"
+                           "\n1. Color Game"
+                           "\n2. Blackjack"
+                           "\n3. Hangman"
+                           "\n4. Cloud Nine"
                            "\n5. High Low"
-                           "\n6. Cloud Nine"
-                           "\n7. Hangman"
+                           "\n6. Guess Game"
+                           "\n7. Roulette"
                            "\n8. Show Leaderboard"
                            "\n9. %sLeave the gambling area%s\n>> ",BYEL, RESET, RED, RESET);
                     scanf("%d",&game);
@@ -48,25 +48,25 @@ int main(){
                     {
                         //plays games in separate files
                         case 1: 
-                           playBlackjack(&user);
+                           playColorGame(&user);
                             break;
                         case 2:
-							playColorGame(&user);
+							playBlackjack(&user);
                             break;
                         case 3: 
-                            playRoulette(&user);
+                            playWordGuess(&user);
                             break;
                         case 4: 
-                            playGuess(&user);
+                            playCloudNine(&user);
                             break;
                         case 5:
                             playHighLow(&user);
                             break;
                         case 6:
-                            playCloudNine(&user);
+                            playRoulette(&user);
                             break;
                         case 7:
-                            playWordGuess(&user);
+                            playGuess(&user);
                             break;
                         case 8: 
                         //show the leaderboard

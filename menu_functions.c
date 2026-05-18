@@ -8,7 +8,7 @@ void signUp(){
     FILE *fp = fopen("gamblers.txt", "a+");
 
     char name[50];
-    printf("\n=== SIGN UP ===\n");
+    printf("\n===== %sSIGN UP%s =====\n", GRN, RESET);
     printf("Enter name: ");
     scanf("%s", name);
 
@@ -41,7 +41,7 @@ int verify(User *user) {
 
     User temp;
 
-    printf("\n=== VERIFICATION ===\n");
+    printf("\n===== %sVERIFICATION%s =====\n", GRN, RESET);
     printf("Enter name: ");
     scanf("%s", user->name);
 
@@ -124,13 +124,13 @@ void showLeaderboard() {
 
     int choice;
     //user chooses sorting filter
-    printf("\n--- LEADERBOARD SELECTION ---\n");
-    printf("1. Blackjack Wins\n2. Slot Machine Wins\n3. Roulette Wins\n4. Guess Game\n5. High Low Wins \n6. Total Wins\n7. Total Earnings (Balance)\n>> ");
+    printf("\n=== %sLEADERBOARD SELECTION %s===\n", CYN, RESET);
+    printf("1. Blackjack Wins\n2. Color Game Wins\n3. Roulette Wins\n4. Guess Game\n5. High Low Wins \n6. Total Wins\n7. Total Earnings (Balance)\n>> ");
     scanf("%d", &choice);
     
     //change later  if we add more games/choices
     if(choice < 0 || choice > 7){
-        printf("Please input among the choices.");
+        printf("%sPlease input among the choices.%s\n", RED, RESET);
         return;
     }
 
@@ -167,17 +167,17 @@ void showLeaderboard() {
         }
     }
     if(choice == 7){
-        printf("\n%-15s | %-10s\n", "NAME", "BALANCE");
+        printf("\n%s %-15s | %-10s %s\n", BWHT, "NAME", "BALANCE", RESET);
         printf("---------------------------\n");
         for (int i = 0; i < count; i++) {
             //gets user's wanted variable and assigns to display
             int display = users[i].balance;
                             
-            printf("%-15s | %-10d\n", users[i].name, display);
+            printf("%-15s | %s%-10d%s\n", users[i].name, YEL, display, RESET);
         }
     }
     else{
-        printf("\n%-15s | %-10s\n", "NAME", "WINS");
+        printf("\n%s%-15s | %-10s%s\n", BWHT, "NAME", "WINS", RESET);
         printf("----------------------------\n");
         for (int i = 0; i < count; i++) {
             //gets user's wanted variable and assigns to display
@@ -187,7 +187,7 @@ void showLeaderboard() {
                         (choice == 4) ? users[i].guess_wins : 
                         (choice == 5) ? users[i].highlow_wins : users[i].total_wins;
                             
-            printf("%-15s | %-10d\n", users[i].name, display);
+            printf("%-15s | %s%-10d%s\n", users[i].name, GRN, display, RESET);
         }
     }
     

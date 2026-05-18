@@ -13,7 +13,7 @@ int main(){
 
     while(1)
     {
-        printf("\n=====%sCA-C-NO %s2.0=====\n", RED, RESET);
+        printf("\n=====%sCA-C-NO 2.0%s=====\n", BRED, RESET);
         printf("1. Enter\n");
         printf("2. %sExit%s\n", RED, RESET);
         printf(">> ");
@@ -32,7 +32,7 @@ int main(){
             //gets the values of user from  file and if it is there
             if (verify(&user)) {
                 do{
-                    printf("\n=======Choose Game======="
+                    printf("\n=======%sChoose Game%s======="
                            "\n1. Blackjack"
                            "\n2. Color Game"
                            "\n3. Roulette"
@@ -41,7 +41,7 @@ int main(){
                            "\n6. Cloud Nine"
                            "\n7. Hangman"
                            "\n8. Show Leaderboard"
-                           "\n9. %sLeave the gambling area%s\n>> ", RED, RESET);
+                           "\n9. %sLeave the gambling area%s\n>> ",CYN, RESET, RED, RESET);
                     scanf("%d",&game);
 
                     switch(game)

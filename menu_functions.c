@@ -8,7 +8,7 @@ void signUp(){
     FILE *fp = fopen("gamblers.txt", "a+");
 
     char name[50];
-    printf("\n===== %sSIGN UP%s =====\n", GRN, RESET);
+    printf("\n===== %sSIGN UP%s =====\n", BGRN, RESET);
     printf("Enter name: ");
     scanf("%s", name);
 
@@ -22,7 +22,7 @@ void signUp(){
                   &balance, &bj_wins, &color_wins, &roulette_wins, &guess_wins, &highlow_wins, &total_wins) != EOF) {
 
         if (strcmp(temp_name, name) == 0) {
-            printf("User already exists! Try another.\n");
+            printf("%sUser already exists! Try another.%s\n", BRED, RESET);
             fclose(fp);
             return;
         }
@@ -30,10 +30,9 @@ void signUp(){
 
     // Save new user
     fprintf(fp, "%s %d %d %d %d %d %d %d\n", name, 100, 0, 0, 0, 0, 0, 0);
-    //nts: if name is yumeko, balance is 99999 and wins are 1000 frfr
     fclose(fp);
 
-    printf("\n*****Account created successfully!*****\n");
+    printf("\n%s*****Account created successfully!*****%s\n", GRN, RESET);
 }
 
 int verify(User *user) {
@@ -41,7 +40,7 @@ int verify(User *user) {
 
     User temp;
 
-    printf("\n===== %sVERIFICATION%s =====\n", GRN, RESET);
+    printf("\n===== %sVERIFICATION%s =====\n", BGRN, RESET);
     printf("Enter name: ");
     scanf("%s", user->name);
 
@@ -57,7 +56,7 @@ int verify(User *user) {
             *user = temp;
 
             fclose(fp);
-            printf("Verify successful! Welcome, %s.\n", user->name);
+            printf("%sVerify successful! Welcome, %s.%s\n", BGRN, user->name, RESET);
             return 1;
         }
     }
@@ -124,7 +123,7 @@ void showLeaderboard() {
 
     int choice;
     //user chooses sorting filter
-    printf("\n=== %sLEADERBOARD SELECTION %s===\n", CYN, RESET);
+    printf("\n=== %sLEADERBOARD SELECTION %s===\n", BCYN, RESET);
     printf("1. Blackjack Wins\n2. Color Game Wins\n3. Roulette Wins\n4. Guess Game\n5. High Low Wins \n6. Total Wins\n7. Total Earnings (Balance)\n>> ");
     scanf("%d", &choice);
     

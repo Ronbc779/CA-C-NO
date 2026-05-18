@@ -13,7 +13,7 @@ int main(){
 
     while(1)
     {
-        printf("\n=====%sCA-C-NO 2.0%s=====\n", BRED, RESET);
+        printf("\n=====%sCA-C-NO 2.0%s=====\n", BYEL, RESET);
         printf("1. Enter\n");
         printf("2. %sExit%s\n", RED, RESET);
         printf(">> ");
@@ -41,7 +41,7 @@ int main(){
                            "\n6. Cloud Nine"
                            "\n7. Hangman"
                            "\n8. Show Leaderboard"
-                           "\n9. %sLeave the gambling area%s\n>> ",CYN, RESET, RED, RESET);
+                           "\n9. %sLeave the gambling area%s\n>> ",BYEL, RESET, RED, RESET);
                     scanf("%d",&game);
 
                     switch(game)
@@ -67,6 +67,7 @@ int main(){
                             break;
                         case 7:
                             playWordGuess(&user);
+                            break;
                         case 8: 
                         //show the leaderboard
                             showLeaderboard();

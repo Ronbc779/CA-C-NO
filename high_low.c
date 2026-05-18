@@ -145,7 +145,7 @@ void doubleOrNothingRound(int *reward){
     int choice;
 
     printf("\n%sDouble or Nothing?%s\n1. Yes\n2. No\n>> ", MAG, RESET);
-    scanf("%s",choice);
+    scanf("%s",&choice);
 
     if(choice == 1){
 

@@ -24,7 +24,7 @@ int calculateScore(Card hand[], int size);
 void playBlackjack(User *user) {
     int choice, bet;
     //explains the rules to user
-    printf("\n%s%s=== BLACKJACK RULES & REWARDS ===%s\n", BCYN, BOLD, RESET);
+    printf("\n=== %sBLACKJACK RULES & REWARDS %s===\n", BCYN, RESET);
     printf("Rules:\n1. The goal is to be higher than your opponent without going over 21.\n2. Going over 21 automatically results in a loss.\n3. The dealer will keep hitting unless it has 17 or more.\n4. You automatically win when the dealer busts.\nPays %s1 to 1%s\n=============\nWould you like to play?\n1. Yes\n2. No\n>> ", YEL, RESET);
     scanf("%d", &choice);
 

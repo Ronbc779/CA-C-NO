@@ -11,32 +11,35 @@ void drawCups(int count);
 
 void playGuess(User *user){
     int choice, bet;
-    printf("\n????????Guess Game????????\n");
-    printf("Rules:\n1. Choose the difficulty you like.\n2. The harder the difficulty, the more options to choose from, the higher the payout.\n3. A ball will be placed in a random spot, all you have to do is guess where it is.\n4. There will be 3 rounds each starting with 3 balls and decreasing to 1.\n5. Payout rates:\nEasy = x1\nMedium = x2\nHard = x3\n=============\nWould you like to play?\n1. Yes\n2. No\n>> ");
+    printf("\n=====%sGuess Game%s=====\n", CYN, RESET);
+    printf("Rules:\n1. Choose the difficulty you like.\n2. The harder the difficulty, the more options to choose from, the higher the payout.\n3. A ball will be placed in a random spot, all you have to do is guess where it is.\n4. There will be 3 rounds each starting with 3 balls and decreasing to 1.\n5. Payout rates:\n");
+    printf("%sEasy%s = %sx1%s\n", GRN, RESET, RED, RESET);
+    printf("%sMedium%s = %sx2%s\n", YEL, RESET, RED, RESET);
+    printf("%sHard%s = %sx3%s\n=============\nWould you like to play?\n1. Yes\n2. No\n>> ", BRED, RESET, RED, RESET);
     scanf("%d", &choice);
 
     if(choice == 2) return;
 
     do{
         int diff, user_guess, won_round = 1;
-        printf("\n????????Guess Game????????\n");
-        printf("Balance: %d\n", user->balance);
+        printf("\n=====%sGuess Game%s=====\n", BCYN, RESET);
+        printf("Balance: %s%d%s\n", YEL, user->balance, RESET);
         printf("Enter bet: ");
         scanf("%d", &bet);
 
         if (bet <= 0 || bet > user->balance) {
-            printf("Invalid bet!\n");
+            printf("%sInvalid bet!%s\n", RED, RESET);
             break;
         }
 
-        printf("\n????????Guess Game????????\n");
-        printf("Choose difficulty:\n1. Easy: 4 choices\n2. Medium: 6 choices\n3. Hard: 8 choices\n>> ");
+        printf("\n=====%sGuess Game%s=====\n", BCYN, RESET);
+        printf("Choose difficulty:\n1. %sEasy: 4 choices%s\n2. %sMedium: 6 choices%s\n3. %sHard: 8 choices%s\n>> ", GRN, RESET, YEL, RESET, BRED, RESET);
         scanf("%d", &diff);
 
         int max_choices = (diff == 1) ? 4 : (diff == 2) ? 6 : 8;
 
         for (int round = 3; round >= 1; round--) {
-            printf("\n--- ROUND %d: Find one of %d balls ---\n", (4 - round), round);
+            printf("\n--- ROUND %s%d%s: Find one of %s%d%s balls ---\n", RED, (4 - round), RESET, RED, round, RESET);
 
             drawCups(max_choices);
             
@@ -74,9 +77,10 @@ void playGuess(User *user){
             }
 
             if (found) {
-                printf("Correct! You found a ball.\nShuffling the remaining balls...\n");
+                //shuffle
+                printf("%sCorrect! You found a ball.%s\nShuffling the remaining balls...\n", GRN, RESET);
             } else {
-                printf("\nEmpty! The ball/s were at: ");
+                printf("\n%sEmpty! The ball/s were at:%s ", RED, RESET);
                 for(int i = 0; i < round; i++) printf("%d ", ball_pos[i]);
                 printf("\n");
                 won_round = 0;
@@ -91,13 +95,13 @@ void playGuess(User *user){
             (user->guess_wins)++;
             (user->total_wins)++;
         } else {
-            printf("\nBetter luck next time. Lost: %d\n", bet);
+            printf("\nBetter luck next time. %sLost: %d%s\n", RED, bet, RESET);
             user->balance -= bet;
         }
 
         saveUser(user);
 
-        printf("\n1. Play Again\n2. Quit\n>> ");
+        printf("\n1. Play Again\n2. %sQuit%s\n>> ", RED, RESET);
         scanf("%d", &choice);
         if (choice == 2) break;
         

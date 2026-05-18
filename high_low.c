@@ -142,12 +142,12 @@ Card insideOutsideRound(Card c1, Card c2, int *reward, int bet){
 
 //Twist
 void doubleOrNothingRound(int *reward){
-    char choice[10];
+    int choice;
 
-    printf("\nDouble, Nothing, or Keep? ");
+    printf("\n%sDouble or Nothing?%s\n1. Yes\n2. No\n>> ", MAG, RESET);
     scanf("%s",choice);
 
-    if(strcasecmp(choice,"Double")==0){
+    if(choice == 1){
 
         int guess;
         Card final = drawHighLowCard();
@@ -161,11 +161,14 @@ void doubleOrNothingRound(int *reward){
         }
         else{
             *reward = 0;
-            printf("Lost everything!\n");
+            printf("%sLost everything!%s\n", RED, RESET);
         }
     }
-    else if(strcasecmp(choice,"Nothing")==0){
+    else if(choice == 2){
         *reward = 0;
+    }
+    else{
+        printf("%sInvalid Input. Choose from the choices.%s\n", RED, RESET);
     }
 }
 
@@ -177,14 +180,14 @@ void playHighLow(User *user){
         initializeDeck();
         shuffleDeck();
 
-        printf("\n=== HIGH LOW ===\n");
-        printf("Balance: %d\n",user->balance);
+        printf("\n===== %sHIGH LOW%s ===\n", BCYN, RESET);
+        printf("Balance: %s%d%s\n", YEL, user->balance, RESET);
 
         printf("Enter bet: ");
         scanf("%d",&bet);
 
         if(bet<=0 || bet>user->balance){
-            printf("Invalid bet.\n");
+            printf("%sInvalid bet.%s\n", RED, RESET);
             return;
         }
 

@@ -184,22 +184,25 @@ void displayCards(char ranks[][3], char suits[][2],
 }
 
 int cardValue(int card){
-    return (card == 0) ? 1 : (card >= 9 ? 0 : card + 1);
+    if(card == 0) return 1;        // A
+    if(card >= 10) return 0;       // J Q K
+    if(card == 9) return 0;        // 10
+    return card + 1;               // 2–9
 }
 
 int getScore(int value1, int value2){
-    return abs(9 - ((value1 + value2) % 10));
+    return (value1 + value2) % 10;
 }
 
-
+// ================= WINNER =================
 void determineWinner(int playerScore, int dealerScore){
 
     usleep(500000);
 
-    if(playerScore < dealerScore){
+    if(playerScore > dealerScore){
         printf(BGRN "\nPLAYER WINS!\nYOU HIT LUCKY 9\n" RESET);
     }
-    else if(dealerScore < playerScore){
+    else if(dealerScore > playerScore){
         printf(BRED "\nDEALER WINS!\nHOUSE TAKES IT!\n" RESET);
     }
     else{

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "casino.h"
 
 #define COLOR_CHOICES 6
@@ -131,6 +132,7 @@ void chooseRandomColor(int random_colors[CUBE_COUNT], char colors[COLOR_CHOICES]
 		}
 		printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
 		printCube(colors, CUBE_HEIGHT, random_colors[i]);
+		SLEEP(1500);
 	}
 }
 

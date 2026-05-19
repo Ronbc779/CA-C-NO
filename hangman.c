@@ -28,7 +28,7 @@ void playWordGuess(User *user) {
         {"ULAM", "PARES"}, {"ULAM", "DINUGUAN"}, {"ULAM", "PINAKBET"}
     };
 
-    int bankSize = sizeof(bank) / sizeof(bank[0]);
+    int bank_size = sizeof(bank) / sizeof(bank[0]);
 
     printf("\n%s%s=== HANGMAN RULES ===%s\n", BCYN, BOLD, RESET);
     printf("1. Guess the hidden word letter by letter.\n");
@@ -63,7 +63,7 @@ void playWordGuess(User *user) {
         }
 
         // Setup random word target
-        int idx = rand() % bankSize;
+        int idx = rand() % bank_size;
         char *target = bank[idx].word;
         int len = strlen(target);
        
@@ -81,10 +81,10 @@ void playWordGuess(User *user) {
         hidden[len] = '\0';
 
         int lives = len;
-        int initialLives = len;
+        int initial_lives = len;
       
         // Tracks alphabet choices (A to Z) to stop punishing duplicate guesses
-        int guessedLetters[26] = {0}; 
+        int guessed_letters[26] = {0}; 
 
         printf("\nCategory: %s%s%s", BYEL, bank[idx].category, RESET);
 
@@ -106,12 +106,12 @@ void playWordGuess(User *user) {
             }
 
             // Flag system check for duplicate entries
-            if (guessedLetters[guess - 'A']) {
+            if (guessed_letters[guess - 'A']) {
                 printf("You already guessed '%c'! Try another letter.\n", guess);
                 continue;
             }
 
-            guessedLetters[guess - 'A'] = 1; // Mark letter as attempted
+            guessed_letters[guess - 'A'] = 1; // Mark letter as attempted
 
             int found = 0;
             for (int i = 0; i < len; i++) {
@@ -132,7 +132,7 @@ void playWordGuess(User *user) {
 
         if (strcmp(target, hidden) == 0) {
             // Multiplier payout setup based on performance
-            float multiplier = 1.0f + ((float)lives / initialLives);
+            float multiplier = 1.0f + ((float)lives / initial_lives);
             int winnings = (int)(bet * multiplier);
             int profit = winnings - bet;
 
@@ -142,6 +142,8 @@ void playWordGuess(User *user) {
            
             user->balance += profit;
             user->total_wins++;
+            user->hangman_wins++;
+
         } else {
             printf("\n%sOUT OF LIVES!%s\n", RED, RESET);
             printf("The word was: %s\n", target);

@@ -14,7 +14,7 @@ typedef struct {
 } Card;
 
 Card deck[DECK_SIZE];
-int deckIndex = 0;
+int deck_index = 0;
 
 //Create Deck
 void initializeDeck() {
@@ -46,12 +46,12 @@ void shuffleDeck() {
         deck[i] = deck[r];
         deck[r] = temp;
     }
-    deckIndex = 0;
+    deck_index = 0;
 }
 
 //Drawing a card
 Card drawHighLowCard() {
-    return deck[deckIndex++];
+    return deck[deck_index++];
 }
 
 //Converts card no. into readable name

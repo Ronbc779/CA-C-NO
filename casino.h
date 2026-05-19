@@ -27,7 +27,7 @@
 
 typedef struct {
     char name[50];
-    int pin, balance, bj_wins, color_wins, roulette_wins, guess_wins, highlow_wins, total_wins;
+    int pin, balance, bj_wins, color_wins, roulette_wins, guess_wins, highlow_wins, hangman_wins, cloudnine_wins, total_wins;
 } User;
 
 // prototypes

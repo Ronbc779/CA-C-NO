@@ -5,8 +5,6 @@
 #include "casino.h"
 #include <unistd.h>
 
-#define SLEEP(ms) usleep(ms * 1000)
-
 //for bets
 typedef struct {
     int type;  

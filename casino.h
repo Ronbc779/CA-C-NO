@@ -1,6 +1,9 @@
 #ifndef CASINO_H
 #define CASINO_H
 
+//delay fxn
+#define SLEEP(ms) usleep(ms * 1000)
+
 //normal colors
 #define BLK "\x1B[0;30m"
 #define RED "\x1B[0;31m"
@@ -25,6 +28,7 @@
 // clear screen
 #define CLRSCR() puts("\033[2J")
 
+// user data format
 typedef struct {
     char name[50];
     int pin, balance, bj_wins, color_wins, roulette_wins, guess_wins, highlow_wins, hangman_wins, cloudnine_wins, total_wins;

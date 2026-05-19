@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "casino.h"
 
 #define COLOR_CHOICES 6
@@ -20,7 +21,7 @@ void askBetAmount(int *bet, int *balance);
 void askColorGuess(int *color_choice);
 void chooseRandomColor(int random_colors[CUBE_COUNT], char colors[COLOR_CHOICES][COLOR_CODE_WIDTH], 
 	int user_choice, int *correct_guesses);
-void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses);
+void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses, int *global_wins);
 
 void playColorGame(User *user){
 	// Fetches ANSI color codes for cube faces.
@@ -31,15 +32,16 @@ void playColorGame(User *user){
 	
 	int *balance = &user->balance;
 	int *wins = &user->color_wins;
+	int *global_wins = &user->total_wins;
 	int prompt_play; 
 
 	// Prints rules and odds
-	printf("%s\n********COLOR GAME********%s" 
+	printf("%s\n========COLOR GAME========%s" 
 			"\n1. Pick one color from the list"
 			"\n2. Wait for the roll to happen and see if you're lucky! For hits:"
 			"\n\ta. One (1) color: x%d"
 			"\n\tb. Two (2) colors: x%d"	
-			"\n\tc. Three (3) colors: x%d", BWHT, RESET, MULTIPLIER_1, MULTIPLIER_2, MULTIPLIER_3	
+			"\n\tc. Three (3) colors: x%d", BCYN, RESET, MULTIPLIER_1, MULTIPLIER_2, MULTIPLIER_3	
 	);
 	
 	askGameplayLoop(&prompt_play, "Would you like to play?"); // First gameplay loop
@@ -55,7 +57,7 @@ void playColorGame(User *user){
 		askBetAmount(&bet, balance);
 		askColorGuess(&user_color);
 		chooseRandomColor(random_colors, colors, user_color, &correct_guesses);
-		updatePlayerStatistics(balance, wins, &bet, correct_guesses);
+		updatePlayerStatistics(balance, wins, &bet, correct_guesses, global_wins);
 		askGameplayLoop(&prompt_play, "Would you like to play again?");
 	} 
 	saveUser(user);
@@ -129,12 +131,13 @@ void chooseRandomColor(int random_colors[CUBE_COUNT], char colors[COLOR_CHOICES]
 		if(random_colors[i] == user_choice){
 			(*correct_guesses)++; //Increment if user guess the same as random color 
 		}
-		printf("\nCube %d | Color: %d\n", i+1, random_colors[i]); // Debug
+		printf("\nCube %d | Color: %d\n", i+1, random_colors[i]+1);
 		printCube(colors, CUBE_HEIGHT, random_colors[i]);
+		SLEEP(1500);
 	}
 }
 
-void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses){
+void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guesses, int *global_wins){
 	// Shows guesses for playthrough
 	printf("\n\nCorrect Guesses: %d", correct_guesses);
 	switch(correct_guesses){
@@ -156,6 +159,7 @@ void updatePlayerStatistics(int *balance, int *wins, int *bet, int correct_guess
 
 	if(correct_guesses > 0){
 		(*wins)++; // Increments color game wins
+		(*global_wins)++;
 		printf("\n\nCongratulations! You got %d correct and won %d!", correct_guesses, *bet);
 	} else{
 		printf("\n\nYou lost! You are now %d poorer!", *bet*-1);

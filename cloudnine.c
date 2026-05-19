@@ -19,7 +19,7 @@ void typeText(const char *text, int delay){
     while(*text){       //loop through each character
         printf("%c", *text);
         fflush(stdout);     //immediate output
-        usleep(delay);      //pause for delay
+        SLEEP(delay);      //pause for delay
         text++;
     }
 }
@@ -33,11 +33,11 @@ void loadingAnimation(){
     for(int i = 0; i < 6; i++){     //loop 6 times for animation dots
         printf(".");
         fflush(stdout);
-        usleep(500000);     //wait 0.5 seconds before next dor
+        SLEEP(500);     //wait 0.5 seconds before next dor
     }
 
     printf(RESET "\n");     //reset color 
-    usleep(500000);     //small pause after animation ends
+    SLEEP(500);     //small pause after animation ends
 }
 
 //main function
@@ -64,7 +64,7 @@ void playCloudNine(User *user){
         //validating for the bet (must be positive and not exceed balance)
         if (bet <= 0 || bet > user->balance) {
             printf("Invalid bet!\n");
-            usleep(800000);     //delay
+            SLEEP(80);     //delay
             continue;       //restart loop if invalid
         }
 
@@ -110,11 +110,11 @@ void playCloudNine(User *user){
         for(int i = 0; i < 4; i++){
             printf(".");
             fflush(stdout);
-            usleep(600000);
+            SLEEP(600);
         }
 
         printf("\n");
-        usleep(500000);
+        SLEEP(500);
 
         //show the winner and update the balance
         determineWinner(user, bet, playerScore, dealerScore);
@@ -160,19 +160,19 @@ void display(){
     //printing of rules with animation and delay 
     printf(BCYN "RULES:\n\n" RESET);
 
-    typeText("Each player gets 2 cards!\n", 50000);
-    usleep(400000);
+    typeText("Each player gets 2 cards!\n", 50);
+    SLEEP(400);
 
-    typeText("Try to get closest to 9!\n", 50000);
-    usleep(400000);
+    typeText("Try to get closest to 9!\n", 50);
+    SLEEP(400);
 
-    typeText("A=1, 2-9 face value, 10/J/Q/K=0\n", 50000);
-    usleep(400000);
+    typeText("A=1, 2-9 face value, 10/J/Q/K=0\n", 50);
+    SLEEP(400);
 
     typeText("Closest wins!\n\n", 50000);
 
     printf(BMAG "Good luck gambler...\n\n" RESET);
-    usleep(1000000);
+    SLEEP(1000);
 }
 
 //drawing of cards
@@ -200,18 +200,18 @@ void displayCards(char ranks[][3], char suits[][2],
     for(int i = 0; i < 4; i++){
         printf(".");
         fflush(stdout);
-        usleep(300000);
+        SLEEP(300);
     }
 
     printf("\n");
-    usleep(500000);
+    SLEEP(500);
 
     //show first card
     printf(BRED "%s%s\n" RESET, ranks[card1], suits[suit1]);
-    usleep(800000);
+    SLEEP(800);
     //show second card
     printf(BLU "%s%s\n" RESET, ranks[card2], suits[suit2]);
-    usleep(600000);
+    SLEEP(600);
 
     printf("\n");
 }

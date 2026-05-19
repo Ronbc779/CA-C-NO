@@ -169,7 +169,7 @@ void display(){
     typeText("A=1, 2-9 face value, 10/J/Q/K=0\n", 50);
     SLEEP(400);
 
-    typeText("Closest wins!\n\n", 50000);
+    typeText("Closest wins!\n\n", 400);
 
     printf(BMAG "Good luck gambler...\n\n" RESET);
     SLEEP(1000);

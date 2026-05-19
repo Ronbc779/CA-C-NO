@@ -73,7 +73,7 @@ void saveUser(User *user) {
     User temp;
 
     //goes through file line by line
-    while (fscanf(fp, "%s %d %d %d %d %d %d &d &d %d",
+    while (fscanf(fp, "%s %d %d %d %d %d %d %d %d %d",
                 temp.name, &temp.balance,
                   &temp.bj_wins, &temp.color_wins, &temp.roulette_wins,
                   &temp.guess_wins, &temp.highlow_wins, &temp.hangman_wins, &temp.cloudnine_wins, &temp.total_wins) != EOF) 
